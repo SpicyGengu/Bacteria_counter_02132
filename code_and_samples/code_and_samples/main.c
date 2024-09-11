@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include "cbmp.h"
 
+/**** Global Variables ****/
+unsigned const threshold = 90;
+
 //Function to invert pixels of an image (negative)
 void invert(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]){
   for (int x = 0; x < BMP_WIDTH; x++)
@@ -22,8 +25,41 @@ void invert(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], unsi
   }
 }
 
+void greyScale2d(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH]){
+  for (int x = 0; x < BMP_WIDTH; x++)
+  {
+    for (int y = 0; y < BMP_HEIGTH; y++)
+    {
+      greyscale_image[x][y] = (input_image[x][y][0] + input_image[x][y][1] + input_image[x][y][2])/3;
+    }
+  }
+}
+
+void bitThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], unsigned char output_bit_image[BMP_WIDTH][BMP_HEIGTH]){
+  for (int x = 0; x < BMP_WIDTH; x++){
+    for (int y = 0; y < BMP_HEIGTH; y++){
+      output_bit_image[x][y] = (input_gs_image[x][y] <= threshold) ? 0 : 255;
+    }
+  }
+}
+
+void applyChannels(unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH], unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]){
+  for (int x = 0; x < BMP_WIDTH; x++)
+  {
+    for (int y = 0; y < BMP_HEIGTH; y++)
+    {
+      for (int c = 0; c < BMP_CHANNELS; c++)
+      {
+        output_image[x][y][c] = greyscale_image[x][y];
+      }
+    }
+  }
+}
+
   //Declaring the array to store the image (unsigned char = unsigned 8 bit)
   unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
+  unsigned char greyscale_image [BMP_WIDTH][BMP_HEIGTH];
+  unsigned char output_bit_image [BMP_WIDTH][BMP_HEIGTH];
   unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 
 //Main function
@@ -46,8 +82,14 @@ int main(int argc, char** argv)
   //Load image from file
   read_bitmap(argv[1], input_image);
 
-  //Run inversion
-  invert(input_image,output_image);
+  //Run greyscale
+  greyScale2d(input_image,greyscale_image);
+
+  //Threshold
+  bitThreshold(greyscale_image,output_bit_image);
+
+  //Turn to 3d array
+  applyChannels(output_bit_image,output_image);
 
   //Save image to file
   write_bitmap(output_image, argv[2]);
