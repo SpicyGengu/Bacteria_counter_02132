@@ -151,7 +151,7 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
 
   if (eDistY == 7) // Bottom
   {
-    for (int dhx = centerX - zDistX; dhx <= centerY + eDistY; dhx++)
+    for (int dhx = centerX - zDistX; dhx <= centerX + eDistX; dhx++)
     {
       if (image[dhx][centerY + eDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
       {
@@ -262,7 +262,7 @@ int main(int argc, char **argv)
     applyChannels(output_bit_image, output_image);
 
     // Save image to file
-    //write_bitmap(output_image, argv[2]);
+    write_bitmap(output_image, argv[2]);
 
     sleep(2);
   }
