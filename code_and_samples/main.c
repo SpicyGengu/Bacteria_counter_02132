@@ -62,25 +62,25 @@ void applyChannels(unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH], unsigne
   }
 }
 
-char erode(unsigned char bit_image[BMP_WIDTH][BMP_HEIGTH])
+void erode(unsigned char bit_image[BMP_WIDTH][BMP_HEIGTH])
 {
   unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH];
-  unsigned char waseroded = 0;
   for (int x = 0; x < BMP_WIDTH; x++)
   {
     for (int y = 0; y < BMP_HEIGTH; y++)
     {
       if (bit_image[x][y])
       {
-        if (!(bit_image[x - 1][y] && bit_image[x + 1][y] && bit_image[x][y - 1] && bit_image[y + 1]))
+        if (!(bit_image[x - 1][y] && bit_image[x + 1][y] && bit_image[x][y - 1] && bit_image[x][y + 1]))
         {
           eroded_image[x][y] = 0;
-          waseroded = 1;
         }
         else
         {
           eroded_image[x][y] = 255;
         }
+      }else{
+        eroded_image[x][y] = 0;
       }
     }
   }
@@ -90,7 +90,6 @@ char erode(unsigned char bit_image[BMP_WIDTH][BMP_HEIGTH])
       bit_image[replacex][replacey] = eroded_image[replacex][replacey]; 
     }
   }
-  return waseroded;
 }
 
 void detect(){
@@ -130,14 +129,7 @@ int main(int argc, char **argv)
   // Threshold
   bitThreshold(greyscale_image, output_bit_image);
 
-  while(1)
-  {
-    if(erode(output_bit_image)){
-      break;
-    }else{
-      printf("Image was eroded");
-    }
-  }
+  erode(output_bit_image);
 
   // Turn to 3d array
   applyChannels(output_bit_image, output_image);
