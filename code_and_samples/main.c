@@ -1,17 +1,18 @@
-// To compile (linux/mac): gcc cbmp.c main.c -o main.out -std=c99
-// To run (linux/mac): ./main.out example.bmp example_inv.bmp
-
-// To compile (win): gcc cbmp.c main.c -o main.exe -std=c99
-// To run (win): main.exe example.bmp example_inv.bmp
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
+#include<unistd.h>
 
 /**** Global Variables ****/
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
+unsigned char visited[BMP_WIDTH][BMP_HEIGTH];  // Visited array
 
+
+unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
+unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char output_bit_image[BMP_WIDTH][BMP_HEIGTH];
+unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 
 
 // Function to invert pixels of an image (negative)
@@ -40,7 +41,7 @@ void greyScale2d(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS],
   }
 }
 
-unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
+
 
 void bitThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], unsigned char output_bit_image[BMP_WIDTH][BMP_HEIGTH])
 {
@@ -115,7 +116,11 @@ int max(int x, int y)
 }
 
 char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
-{ // CHECKS 15x15 area
+{
+  if (visited[centerX][centerY])  // Skip if already visited
+    return 0;
+
+  // CHECKS 15x15 area
   int zDistX = min(7, centerX);
   int zDistY = min(7, centerY);
   int eDistX = min((BMP_WIDTH - 1) - centerX, 7);
@@ -165,14 +170,18 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
       }
     }
   }
+
   zDistX = min(6, centerX);
   zDistY = min(6, centerY);
   eDistX = min((BMP_WIDTH - 1) - centerX, 6);
   eDistY = min((BMP_HEIGTH - 1) - centerY, 6);
 
-  for(int i = centerX - zDistX; i < centerX + eDistX; i++){
-    for(int j = centerY - zDistY; j < centerY + eDistY; j++){
-      if(image[i][j]){
+  for (int i = centerX - zDistX; i < centerX + eDistX; i++)
+  {
+    for (int j = centerY - zDistY; j < centerY + eDistY; j++)
+    {
+      if (image[i][j])
+      {
         return 1;
       }
     }
@@ -181,20 +190,25 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
   return 0;
 }
 
-void makeCross(int x, int y){
+void makeCross(int x, int y)
+{
   input_image[x][y][0] = 255;
   input_image[x][y][1] = 0;
   input_image[x][y][2] = 0;
 }
 
-void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH]){
+void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
+{
   int zDistX = min(7, x);
   int zDistY = min(7, y);
   int eDistX = min((BMP_WIDTH - 1) - x, 7);
   int eDistY = min((BMP_HEIGTH - 1) - y, 7);
-  for(int i = x - zDistX; i < x + eDistX; i++){
-    for(int j = y - zDistY; j < y + eDistY; j++){
+  for (int i = x - zDistX; i <= x + eDistX; i++)
+  {
+    for (int j = y - zDistY; j <= y + eDistY; j++)
+    {
       image[i][j] = 0;
+      visited[i][j] = 1;  // Mark as visited
     }
   }
 }
@@ -205,33 +219,21 @@ void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH])
   {
     for (int y = 0; y < BMP_HEIGTH; y++)
     {
-      if(detectHelper(x, y, eroded_image)){
-        printf("\nFound a cell at %d %d", x,y);
-        makeCross(x,y);
+      if (eroded_image[x][y] && detectHelper(x, y, eroded_image))
+      {
+        printf("\nFound a cell at %d %d", x, y);
+        makeCross(x, y);
         totalCount++;
-        overWrite(x,y,eroded_image);
+        overWrite(x, y, eroded_image);
       }
     }
   }
 }
 
 
-// Declaring the array to store the image (unsigned char = unsigned 8 bit)
-
-unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH];
-unsigned char output_bit_image[BMP_WIDTH][BMP_HEIGTH];
-unsigned char eroded_img[BMP_WIDTH][BMP_HEIGTH];
-unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-
 // Main function
 int main(int argc, char **argv)
 {
-  // argc counts how may arguments are passed
-  // argv[0] is a string with the name of the program
-  // argv[1] is the first command line argument (input image)
-  // argv[2] is the second command line argument (output image)
-
-  // Checking that 2 arguments are passed
   if (argc != 3)
   {
     fprintf(stderr, "Usage: %s <output file path> <output file path>\n", argv[0]);
@@ -243,6 +245,10 @@ int main(int argc, char **argv)
   // Load image from file
   read_bitmap(argv[1], input_image);
 
+  // Clear visited array
+  for (int x = 0; x < BMP_WIDTH; x++)
+    for (int y = 0; y < BMP_HEIGTH; y++)
+      visited[x][y] = 0;
 
   // Run greyscale
   greyScale2d(input_image, greyscale_image);
@@ -250,19 +256,19 @@ int main(int argc, char **argv)
   // Threshold
   bitThreshold(greyscale_image, output_bit_image);
 
-  while (erode(output_bit_image))
-  {
+  while(erode(output_bit_image)){
     detect(output_bit_image);
+      // Turn to 3d array
+    applyChannels(output_bit_image, output_image);
+
+    // Save image to file
+    //write_bitmap(output_image, argv[2]);
+
+    sleep(2);
   }
-  
 
-  // Turn to 3d array
-  applyChannels(output_bit_image, output_image);
-
-  // Save image to file
-  write_bitmap(input_image, argv[2]);
-
+  write_bitmap(input_image,argv[2]);
   printf("Done!\n");
-  printf("Total Cells: %d", totalCount);
+  printf("Total Cells: %d\n", totalCount);
   return 0;
 }
