@@ -5,10 +5,10 @@
 #include <math.h>
 
 /**** Global Variables ****/
-unsigned const threshold = 90;
+unsigned const threshold = 80;
 unsigned int totalCount = 0;
-unsigned const detectionSize = 15;
-unsigned int maxTravel = (detectionSize/2)-0.5;
+unsigned const detectionSize = 15; //CHANGE THIS ONE
+unsigned const maxTravel = (detectionSize/2)-0.5;
 
 unsigned char visited[BMP_WIDTH][BMP_HEIGTH];  // Visited array
 
@@ -196,9 +196,24 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
 
 void makeCross(int x, int y)
 {
-  input_image[x][y][0] = 255;
-  input_image[x][y][1] = 0;
-  input_image[x][y][2] = 0;
+  int zDistX = min(maxTravel, x);
+  int zDistY = min(maxTravel, y);
+  int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
+  int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
+  for(int i = -1; i < 2 ; i++){
+    for(int xline = x - zDistX; xline <= x + eDistX; xline ++){
+      input_image[xline][y + i][0] = 255;
+      input_image[xline][y + i][1] = 0;
+      input_image[xline][y + i][2] = 0;
+    }
+
+    for(int yline = y - zDistY; yline <= y + eDistY; yline ++){
+      input_image[x + i][yline][0] = 255;
+      input_image[x + i][yline][1] = 0;
+      input_image[x + i][yline][2] = 0;
+    }
+  }
+
 }
 
 void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
@@ -269,6 +284,8 @@ int main(int argc, char **argv)
 
     // Save image to file
     write_bitmap(output_image, argv[2]);
+
+    //sleep(1);
   }
 
   write_bitmap(input_image,argv[2]);
