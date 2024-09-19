@@ -2,10 +2,14 @@
 #include <stdio.h>
 #include "cbmp.h"
 #include<unistd.h>
+#include <math.h>
 
 /**** Global Variables ****/
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
+unsigned const detectionSize = 15;
+unsigned int maxTravel = (detectionSize/2)-0.5;
+
 unsigned char visited[BMP_WIDTH][BMP_HEIGTH];  // Visited array
 
 
@@ -121,13 +125,13 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
     return 0;
 
   // CHECKS 15x15 area
-  int zDistX = min(7, centerX);
-  int zDistY = min(7, centerY);
-  int eDistX = min((BMP_WIDTH - 1) - centerX, 7);
-  int eDistY = min((BMP_HEIGTH - 1) - centerY, 7);
+  int zDistX = min(maxTravel, centerX);
+  int zDistY = min(maxTravel, centerY);
+  int eDistX = min((BMP_WIDTH - 1) - centerX, maxTravel);
+  int eDistY = min((BMP_HEIGTH - 1) - centerY, maxTravel);
 
   // Check border
-  if (zDistY == 7) // Top
+  if (zDistY == maxTravel) // Top
   {
     for (int dhx = centerX - zDistX; dhx <= centerX + eDistX; dhx++)
     {
@@ -138,7 +142,7 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
     }
   }
 
-  if (zDistX == 7) // Left
+  if (zDistX == maxTravel) // Left
   {
     for (int dhy = centerY - zDistY; dhy <= centerY + eDistY; dhy++)
     {
@@ -149,7 +153,7 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
     }
   }
 
-  if (eDistY == 7) // Bottom
+  if (eDistY == maxTravel) // Bottom
   {
     for (int dhx = centerX - zDistX; dhx <= centerX + eDistX; dhx++)
     {
@@ -160,7 +164,7 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
     }
   }
 
-  if (eDistX == 7) // Right
+  if (eDistX == maxTravel) // Right
   {
     for (int dhy = centerY - zDistY; dhy <= centerY + eDistY; dhy++)
     {
@@ -171,10 +175,10 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
     }
   }
 
-  zDistX = min(6, centerX);
-  zDistY = min(6, centerY);
-  eDistX = min((BMP_WIDTH - 1) - centerX, 6);
-  eDistY = min((BMP_HEIGTH - 1) - centerY, 6);
+  zDistX = min((maxTravel-1), centerX);
+  zDistY = min((maxTravel-1), centerY);
+  eDistX = min((BMP_WIDTH - 1) - centerX, (maxTravel-1));
+  eDistY = min((BMP_HEIGTH - 1) - centerY, (maxTravel-1));
 
   for (int i = centerX - zDistX; i < centerX + eDistX; i++)
   {
@@ -199,10 +203,10 @@ void makeCross(int x, int y)
 
 void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
-  int zDistX = min(7, x);
-  int zDistY = min(7, y);
-  int eDistX = min((BMP_WIDTH - 1) - x, 7);
-  int eDistY = min((BMP_HEIGTH - 1) - y, 7);
+  int zDistX = min(maxTravel, x);
+  int zDistY = min(maxTravel, y);
+  int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
+  int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
   for (int i = x - zDistX; i <= x + eDistX; i++)
   {
     for (int j = y - zDistY; j <= y + eDistY; j++)
@@ -242,6 +246,8 @@ int main(int argc, char **argv)
 
   printf("Example program - 02132 - A1\n");
 
+  unsigned int maxTravel = round(detectionSize/2);
+
   // Load image from file
   read_bitmap(argv[1], input_image);
 
@@ -263,8 +269,6 @@ int main(int argc, char **argv)
 
     // Save image to file
     write_bitmap(output_image, argv[2]);
-
-    sleep(2);
   }
 
   write_bitmap(input_image,argv[2]);
