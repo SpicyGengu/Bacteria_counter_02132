@@ -1,15 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-//#include <unistd.h>
+// #include <unistd.h>
 #include <math.h>
-
 
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
-#define detectionSize 21 //CHANGE THIS ONE. HAS TO BE ODD NUMBER
-unsigned const maxTravel = (detectionSize/2)-0.5;
-
+#define detectionSize 21 // CHANGE THIS ONE. HAS TO BE ODD NUMBER
+unsigned const maxTravel = (detectionSize / 2) - 0.5;
 
 // Function to invert pixels of an image (negative)
 void invert(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
@@ -79,8 +77,8 @@ char erode(unsigned char bit_image[BMP_WIDTH][BMP_HEIGTH])
         for (int y = 0; y < BMP_HEIGTH; y++)
         {
             if (bit_image[x][y])
-            {
-                if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == 0 ? 0 : 1)]))
+            { // attempt diamond shape erosion, unsuccessul: if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - ((x < 2) ? 0 : 2)][y] && bit_image[x + ((x > BMP_WIDTH - 2) ? 0 : 2)][y] && bit_image[x][y - ((y < 2) ? 0 : 2)] && bit_image[x][y + ((y > BMP_HEIGTH - 2) ? 0 : 2)] && bit_image[x - (x == 0 ? 0 : 1)][y - (y == 0 ? 0 : 1)] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
+                if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
                 {
                     eroded_image[x][y] = 0;
                     waseroded = 1;
@@ -218,7 +216,7 @@ void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
     }
 }
 
-void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH],unsigned char image[BMP_WIDTH][BMP_HEIGTH][3])
+void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned char image[BMP_WIDTH][BMP_HEIGTH][3])
 {
     for (int x = 0; x < BMP_WIDTH; x++)
     {
@@ -226,7 +224,7 @@ void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH],unsigned char imag
         {
             if (eroded_image[x][y] && detectHelper(x, y, eroded_image))
             {
-                //printf("Found a cell at %d %d\n", x, y);
+                // printf("Found a cell at %d %d\n", x, y);
                 makeCross(x, y, image);
                 totalCount++;
                 overWrite(x, y, eroded_image);
@@ -235,16 +233,18 @@ void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH],unsigned char imag
     }
 }
 
-void run_erosion(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]){
-    unsigned int maxTravel = round(detectionSize/2);
+void run_erosion(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
+{
+    unsigned int maxTravel = round(detectionSize / 2);
     unsigned char imageToProcess[BMP_WIDTH][BMP_HEIGTH];
 
-      // Run greyscale
+    // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
     bitThreshold(imageToProcess);
-    
-    while(erode(imageToProcess)){
-        detect(imageToProcess,input_image);
+
+    while (erode(imageToProcess))
+    {
+        detect(imageToProcess, input_image);
     }
 }
