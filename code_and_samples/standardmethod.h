@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-#include <unistd.h>
+//#include <unistd.h>
 #include <math.h>
 
 
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
-unsigned const detectionSize = 21; //CHANGE THIS ONE. HAS TO BE ODD NUMBER
-unsigned const maxTravel = ((detectionSize/2)-0.5);
+#define detectionSize 21 //CHANGE THIS ONE. HAS TO BE ODD NUMBER
+unsigned const maxTravel = (detectionSize/2)-0.5;
 
 
 // Function to invert pixels of an image (negative)

@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-#include <unistd.h>
+//#include <unistd.h>
 #include <math.h>
 #include "helpers.h"
 
-const int kernelSize = 15;
-const int imageSize = 17;
+#define kernelSize 15
+#define imageSize 17
 const float sigma = 20;
 const float negVal = -1;
 const int sigmaTune = 4;

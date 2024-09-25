@@ -1,8 +1,15 @@
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-#include <unistd.h>
+//#include <unistd.h>
 #include <math.h>
+#ifdef min
+#undef min
+#endif
+
+#ifdef max
+#undef max
+#endif
 
 
 int min(int x, int y)
