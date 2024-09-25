@@ -1,0 +1,34 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "cbmp.h"
+#include <unistd.h>
+#include <math.h>
+
+
+int min(int x, int y)
+{
+    return x < y ? x : y;
+}
+
+
+int max(int x, int y)
+{
+    return x > y ? x : y;
+}
+
+void floatToCharImg(float floatImg[BMP_WIDTH][BMP_HEIGTH], unsigned char charImg[BMP_WIDTH][BMP_HEIGTH]){
+    for (int x = 0; x < BMP_WIDTH; x++){
+        for (int y = 0; y < BMP_HEIGTH; y++){
+            charImg[x][y] = floatImg[x][y];
+        }
+    }
+}
+
+
+void charToFloatImg(unsigned char charImg[BMP_WIDTH][BMP_HEIGTH],float floatImg[BMP_WIDTH][BMP_HEIGTH]){
+    for (int x = 0; x < BMP_WIDTH; x++){
+        for (int y = 0; y < BMP_HEIGTH; y++){
+            charImg[x][y] = floatImg[x][y];
+        }
+    }
+}
