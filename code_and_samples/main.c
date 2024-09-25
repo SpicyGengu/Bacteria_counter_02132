@@ -5,6 +5,7 @@
 #include <math.h>
 #include "bottleNeckmethod.h"
 #include "standardmethod.h"
+#include "improvements.h"
 
 
 unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
@@ -32,7 +33,17 @@ int main(int argc, char **argv)
   read_bitmap(argv[1], input_image);
 
   
-  run_erosion(input_image);
+  unsigned int maxTravel = round(detectionSize/2);
+  unsigned char imageToProcess[BMP_WIDTH][BMP_HEIGTH];
+
+      // Run greyscale
+    greyScale2d(input_image, imageToProcess);
+
+    customThreshold(imageToProcess,applyOtsu(imageToProcess));
+    
+    while(erode(imageToProcess)){
+        detectImprovement(imageToProcess,input_image);
+    }
 
   write_bitmap(input_image,argv[2]);
   printf("Done!\n");
