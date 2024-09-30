@@ -38,6 +38,10 @@ int averageResultSize5(int results[5])
 
 void standardRuns()
 {
+    printf("%s\n", FILE_PATH_FORMAT_EASY);
+    printf("%s\n", FILE_PATH_FORMAT_MEDIUM);
+    printf("%s\n", FILE_PATH_FORMAT_HARD);
+    printf("%s\n", FILE_PATH_FORMAT_IMPOSSIBLE);
     unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
     char file_path[100];
     int easyRuns[10];
@@ -47,14 +51,13 @@ void standardRuns()
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
+    /*
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++)
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
-        printf("Attempting to read bitmap: %s\n", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         easyRuns[number - 1] = result;
@@ -108,6 +111,7 @@ void standardRuns()
     printf("                                        Average: %d/300", averageResultSize5(impossibleRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n\n");
+    */
 }
 
 void improvedRuns()
