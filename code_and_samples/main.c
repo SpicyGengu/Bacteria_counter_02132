@@ -8,16 +8,6 @@
 //#include "improvements.h"
 #include "integrationTests.h"
 
-unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH];
-float floatImage[BMP_WIDTH][BMP_HEIGTH];
-unsigned char output_bit_image[BMP_WIDTH][BMP_HEIGTH];
-unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-
-unsigned char kernel[imageSize][imageSize];
-
-
-
 // Main function
 int main(int argc, char **argv)
 {
