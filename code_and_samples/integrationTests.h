@@ -42,7 +42,12 @@ void standardRuns()
     printf("%s\n", FILE_PATH_FORMAT_MEDIUM);
     printf("%s\n", FILE_PATH_FORMAT_HARD);
     printf("%s\n", FILE_PATH_FORMAT_IMPOSSIBLE);
-    unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
+    unsigned char(*input_image)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
+    if (input_image == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        return; // Handle the error appropriately
+    }
     char file_path[100];
     int easyRuns[10];
     int mediumRuns[10];
