@@ -4,10 +4,10 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
-#define FILE_PATH_FORMAT_MEDIUM "samples/medium/%dMEDIUM.bmp"
-#define FILE_PATH_FORMAT_HARD "samples/hard/%dHARD.bmp"
-#define FILE_PATH_FORMAT_IMPOSSIBLE "samples/impossible/%dIMPOSSIBLE.bmp"
+#define FILE_PATH_FORMAT_EASY "samples\\easy\\%dEASY.bmp"
+#define FILE_PATH_FORMAT_MEDIUM "samples\\medium\\%dMEDIUM.bmp"
+#define FILE_PATH_FORMAT_HARD "samples\\hard\\%dHARD.bmp"
+#define FILE_PATH_FORMAT_IMPOSSIBLE "samples\\impossible\\%dIMPOSSIBLE.bmp"
 #else
 #include <unistd.h>
 #define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
@@ -56,7 +56,7 @@ void standardRuns()
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-    /*
+    
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++)
@@ -116,7 +116,7 @@ void standardRuns()
     printf("                                        Average: %d/300", averageResultSize5(impossibleRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n\n");
-    */
+    free(input_image);
 }
 
 void improvedRuns()
