@@ -1,11 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-//#include<unistd.h>
 #include <math.h>
-//#include "convulsionMethod.h"
-//#include "standardmethod.h"
-//#include "improvements.h"
 #include "integrationTests.h"
 
 // Main function

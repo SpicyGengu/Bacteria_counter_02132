@@ -43,7 +43,7 @@ void standardRuns() {
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
+    
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++) {
