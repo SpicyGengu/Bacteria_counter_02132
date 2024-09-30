@@ -12,7 +12,7 @@ Linux/Mac:
 
 Windows:
 - To compile: gcc cbmp.c main.c -o main.exe -std=c99
-- To run: main.exe example.bmp example_inv.bmp
+- To run: .\main.exe example.bmp example_inv.bmp
 
 The folder 'results_example' provides you with some example images obtained by running the algorithm. 
 
