@@ -13,6 +13,24 @@
     #define FILE_PATH_FORMAT_IMPOSSIBLE "samples/impossible/%dIMPOSSIBLE.bmp"
 #endif
 
+int averageResult(int results[10]){
+    int sumOfResults = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        sumOfResults += results[i];
+    }
+    return round(sumOfResults/10);
+}
+
+int averageResultSize5(int results[5]){
+    int sumOfResults = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        sumOfResults += results[i];
+    }
+    return round(sumOfResults/5);
+}
+
 void read_bitmap(char *file_path, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]);
 
 void standardRuns() {

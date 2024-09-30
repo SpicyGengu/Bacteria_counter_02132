@@ -1,4 +1,3 @@
-#include "convulsionMethod.h"
 #include "standardmethod.h"
 #include "improvements.h"
 

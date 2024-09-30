@@ -4,10 +4,17 @@
 // #include <unistd.h>
 #include <math.h>
 
+
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
 #define detectionSize 15 // CHANGE THIS ONE. HAS TO BE ODD NUMBER
 unsigned const maxTravel = (detectionSize / 2) - 0.5;
+
+int myMin(int x, int y)
+{
+    return x < y ? x : y;
+}
+
 
 // Function to invert pixels of an image (negative)
 void invert(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], unsigned char output_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
@@ -123,10 +130,10 @@ char erode(unsigned char bit_image[BMP_WIDTH][BMP_HEIGTH])
 char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
     // CHECKS 15x15 area
-    int zDistX = min(maxTravel, centerX);
-    int zDistY = min(maxTravel, centerY);
-    int eDistX = min((BMP_WIDTH - 1) - centerX, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - centerY, maxTravel);
+    int zDistX = myMin(maxTravel, centerX);
+    int zDistY = myMin(maxTravel, centerY);
+    int eDistX = myMin((BMP_WIDTH - 1) - centerX, maxTravel);
+    int eDistY = myMin((BMP_HEIGTH - 1) - centerY, maxTravel);
 
     // Check border
     if (zDistY == maxTravel) // Top
@@ -173,10 +180,10 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
         }
     }
 
-    zDistX = min((maxTravel - 1), centerX);
-    zDistY = min((maxTravel - 1), centerY);
-    eDistX = min((BMP_WIDTH - 1) - centerX, (maxTravel - 1));
-    eDistY = min((BMP_HEIGTH - 1) - centerY, (maxTravel - 1));
+    zDistX = myMin((maxTravel - 1), centerX);
+    zDistY = myMin((maxTravel - 1), centerY);
+    eDistX = myMin((BMP_WIDTH - 1) - centerX, (maxTravel - 1));
+    eDistY = myMin((BMP_HEIGTH - 1) - centerY, (maxTravel - 1));
 
     for (int i = centerX - zDistX; i < centerX + eDistX; i++)
     {
@@ -194,10 +201,10 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
 
 void makeCross(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
-    int zDistX = min(maxTravel, x);
-    int zDistY = min(maxTravel, y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
+    int zDistX = myMin(maxTravel, x);
+    int zDistY = myMin(maxTravel, y);
+    int eDistX = myMin((BMP_WIDTH - 1) - x, maxTravel);
+    int eDistY = myMin((BMP_HEIGTH - 1) - y, maxTravel);
     for (int i = -1; i < 2; i++)
     {
         for (int xline = x - zDistX; xline <= x + eDistX; xline++)
@@ -218,10 +225,10 @@ void makeCross(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3]
 
 void overWrite(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
-    int zDistX = min(maxTravel, x);
-    int zDistY = min(maxTravel, y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
+    int zDistX = myMin(maxTravel, x);
+    int zDistY = myMin(maxTravel, y);
+    int eDistX = myMin((BMP_WIDTH - 1) - x, maxTravel);
+    int eDistY = myMin((BMP_HEIGTH - 1) - y, maxTravel);
     for (int i = x - zDistX; i <= x + eDistX; i++)
     {
         for (int j = y - zDistY; j <= y + eDistY; j++)

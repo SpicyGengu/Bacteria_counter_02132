@@ -5,6 +5,7 @@
         "bottleneckmethod.h": "c",
         "stdio.h": "c",
         "stdlib.h": "c",
-        "runners.h": "c"
+        "runners.h": "c",
+        "cbmp.h": "c"
     }
 }

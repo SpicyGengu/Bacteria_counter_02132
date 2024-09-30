@@ -3,7 +3,6 @@
 #include "cbmp.h"
 //#include <unistd.h>
 #include <math.h>
-#include "helpers.h"
 
 #define kernelSize 15
 #define imageSize 17
