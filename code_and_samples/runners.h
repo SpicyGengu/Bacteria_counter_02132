@@ -2,10 +2,11 @@
 #include "standardmethod.h"
 #include "improvements.h"
 
-void runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
+int runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
 {
     unsigned int maxTravel = round(detectionSize / 2);
     unsigned char imageToProcess[BMP_WIDTH][BMP_HEIGTH];
+    int count = 0;
 
     // Run greyscale
     greyScale2d(input_image, imageToProcess);
@@ -16,4 +17,23 @@ void runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
     {
         detect(imageToProcess, input_image);
     }
+    return totalCount;
+}
+
+int runImproved(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
+{
+    unsigned int maxTravel = round(detectionSize / 2);
+    unsigned char imageToProcess[BMP_WIDTH][BMP_HEIGTH];
+    int count = 0;
+
+    // Run greyscale
+    greyScale2d(input_image, imageToProcess);
+
+    customThreshold(imageToProcess,applyOtsu(imageToProcess));
+
+    while (erode(imageToProcess))
+    {
+        detectImprovement(imageToProcess, input_image);
+    }
+    return totalCount;
 }

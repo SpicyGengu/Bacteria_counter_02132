@@ -4,6 +4,7 @@
         "standardmethod.h": "c",
         "bottleneckmethod.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "runners.h": "c"
     }
 }

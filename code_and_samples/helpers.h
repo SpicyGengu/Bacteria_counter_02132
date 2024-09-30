@@ -39,3 +39,21 @@ void charToFloatImg(unsigned char charImg[BMP_WIDTH][BMP_HEIGTH],float floatImg[
         }
     }
 }
+
+int averageResult(int results[10]){
+    int sumOfResults = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        sumOfResults += results[i];
+    }
+    return round(sumOfResults/10);
+}
+
+int averageResultSize5(int results[5]){
+    int sumOfResults = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        sumOfResults += results[i];
+    }
+    return round(sumOfResults/5);
+}

@@ -3,10 +3,10 @@
 #include "cbmp.h"
 //#include<unistd.h>
 #include <math.h>
-#include "convulsionMethod.h"
-#include "standardmethod.h"
-#include "improvements.h"
-
+//#include "convulsionMethod.h"
+//#include "standardmethod.h"
+//#include "improvements.h"
+#include "integrationTests.h"
 
 unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
 unsigned char greyscale_image[BMP_WIDTH][BMP_HEIGTH];
@@ -27,26 +27,18 @@ int main(int argc, char **argv)
     exit(1);
   }
 
-  printf("Example program - 02132 - A1\n");
-
-  // Load image from file
-  read_bitmap(argv[1], input_image);
-
+  printf("Custom program - 02132 - A1\n");
   
-  unsigned int maxTravel = round(detectionSize/2);
-  unsigned char imageToProcess[BMP_WIDTH][BMP_HEIGTH];
+  // Load image from file
+  //read_bitmap(argv[1], input_image);
 
-      // Run greyscale
-    greyScale2d(input_image, imageToProcess);
+  standardRuns();
 
-    customThreshold(imageToProcess,90);
-    
-    while(erode(imageToProcess)){
-        detectImprovement(imageToProcess,input_image);
-    }
+  improvedRuns();
 
-  write_bitmap(input_image,argv[2]);
+  //write_bitmap(input_image,argv[2]);
+  
   printf("Done!\n");
-  printf("Total Cells: %d\n", totalCount);
+  //printf("Total Cells: %d\n", totalCount);
   return 0;
 }
