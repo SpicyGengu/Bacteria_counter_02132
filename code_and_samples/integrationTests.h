@@ -56,7 +56,7 @@ void standardRuns()
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-    
+
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++)
@@ -64,6 +64,11 @@ void standardRuns()
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         printf("Attempting to read: %s\n", file_path);
+        if (read_bitmap(file_path, input_image) == 0)
+        { // Adjust based on how read_bitmap indicates failure
+            fprintf(stderr, "Error reading bitmap file: %s\n", file_path);
+            continue; // Skip this iteration
+        }
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         easyRuns[number - 1] = result;
