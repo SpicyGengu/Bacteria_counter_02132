@@ -1,4 +1,17 @@
 #include "runners.h"
+#include <stdio.h>
+
+#ifdef _WIN32
+    #define FILE_PATH_FORMAT_EASY "samples\\easy\\%dEASY.bmp"
+    #define FILE_PATH_FORMAT_MEDIUM "samples\\medium\\%dMEDIUM.bmp"
+    #define FILE_PATH_FORMAT_HARD "samples\\hard\\%dHARD.bmp"
+    #define FILE_PATH_FORMAT_IMPOSSIBLE "samples\\impossible\\%dIMPOSSIBLE.bmp"
+#else
+    #define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
+    #define FILE_PATH_FORMAT_MEDIUM "samples/medium/%dMEDIUM.bmp"
+    #define FILE_PATH_FORMAT_HARD "samples/hard/%dHARD.bmp"
+    #define FILE_PATH_FORMAT_IMPOSSIBLE "samples/impossible/%dIMPOSSIBLE.bmp"
+#endif
 
 void read_bitmap(char *file_path, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]);
 
@@ -12,32 +25,32 @@ void standardRuns() {
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
+
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/easy/%dEASY.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
-        easyRuns[number-1] = result;
+        easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(easyRuns));
+    printf("Average: %d/300", averageResult(easyRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
 
     // Medium Difficulties
     printf("Medium difficulties:     ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/medium/%dMEDIUM.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
-        mediumRuns[number-1] = result;
+        mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(mediumRuns));
+    printf("Average: %d/300", averageResult(mediumRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -45,13 +58,13 @@ void standardRuns() {
     printf("Hard difficulties:       ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/hard/%dHARD.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
-        hardRuns[number-1] = result;
+        hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(hardRuns));
+    printf("Average: %d/300", averageResult(hardRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -59,17 +72,15 @@ void standardRuns() {
     printf("Impossible Difficulties: ");
     for (int number = 1; number <= 5; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/impossible/%dIMPOSSIBLE.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
-        impossibleRuns[number-1] = result;
+        impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("                                        Average: %d/300",averageResultSize5(impossibleRuns));
+    printf("                                        Average: %d/300", averageResultSize5(impossibleRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n\n");
-
-
 }
 
 void improvedRuns() {
@@ -87,29 +98,27 @@ void improvedRuns() {
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/easy/%dEASY.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        easyRuns[number-1] = result;
+        easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(easyRuns));
+    printf("Average: %d/300", averageResult(easyRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
-
 
     // Medium Difficulties
     printf("Medium difficulties:     ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/medium/%dMEDIUM.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        mediumRuns[number-1] = result;
+        mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(mediumRuns));
+    printf("Average: %d/300", averageResult(mediumRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -117,13 +126,13 @@ void improvedRuns() {
     printf("Hard difficulties:       ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/hard/%dHARD.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        hardRuns[number-1] = result;
+        hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("Average: %d/300",averageResult(hardRuns));
+    printf("Average: %d/300", averageResult(hardRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -131,14 +140,13 @@ void improvedRuns() {
     printf("Impossible Difficulties: ");
     for (int number = 1; number <= 5; number++) {
         totalCount = 0;
-        snprintf(file_path, sizeof(file_path), "samples/impossible/%dIMPOSSIBLE.bmp", number);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        impossibleRuns[number-1] = result;
+        impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    printf("                                        Average: %d/300",averageResultSize5(impossibleRuns));
+    printf("                                        Average: %d/300", averageResultSize5(impossibleRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
 }
