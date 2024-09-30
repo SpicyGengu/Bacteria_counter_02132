@@ -10,7 +10,7 @@ int runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
     // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
-    bitThreshold(imageToProcess);
+    betterBitThreshold(imageToProcess);
 
     while (erode(imageToProcess))
     {

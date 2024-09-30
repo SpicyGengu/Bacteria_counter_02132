@@ -20,7 +20,7 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     int sum = 0;
     float mean_total = 0.0f;
     
-    // Build the histogram and sum of all pixel values
+    //Histogram
     for (int x = 0; x < BMP_WIDTH; x++) {
         for (int y = 0; y < BMP_HEIGTH; y++) {
             int pixel = image[x][y];
@@ -29,17 +29,14 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
         }
     }
 
-    // Calculate the global mean (mean of all pixel values)
     mean_total = sum / (float)total_pixels;
 
-    // Calculate the cumulative histogram and cumulative mean
     int cumulative_sum = 0;
     for (int i = 0; i < 256; i++) {
         cumulative_sum += histogram[i];
         cumulative[i] = cumulative_sum / (float)total_pixels;
     }
 
-    // Calculate variance for each threshold and find the threshold that maximizes variance
     float max_variance = 0;
     int best_threshold = 0;
 
@@ -49,22 +46,21 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
         float mean_class1 = 0.0f;
         float mean_class2 = 0.0f;
         
-        // Class 1 (background) calculations
+        // Class 1 background
         for (int j = 0; j <= i; j++) {
             sum_class1 += j * histogram[j];
         }
         mean_class1 = sum_class1 / (cumulative[i] * total_pixels);
 
-        // Class 2 (foreground) calculations
+        // Class 2 foreground
         for (int j = i + 1; j < 256; j++) {
             sum_class2 += j * histogram[j];
         }
         mean_class2 = sum_class2 / ((1 - cumulative[i]) * total_pixels);
 
-        // Between-class variance
+        //Variance
         var[i] = cumulative[i] * (1 - cumulative[i]) * (mean_class1 - mean_class2) * (mean_class1 - mean_class2);
 
-        // Track the largest variance
         if (var[i] > max_variance) {
             max_variance = var[i];
             best_threshold = i;
@@ -73,25 +69,6 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     return round(best_threshold);
 }
 
-// This is the old version of custom threshold
-void customThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)
-{
-    unsigned char processimage[BMP_WIDTH][BMP_HEIGTH];
-    for (int x = 0; x < BMP_WIDTH; x++)
-    {
-        for (int y = 0; y < BMP_HEIGTH; y++)
-        {
-            processimage[x][y] = (input_gs_image[x][y] <= otsuHold) ? 0 : 255;
-        }
-    }
-    for (int x = 0; x < BMP_WIDTH; x++)
-    {
-        for (int y = 0; y < BMP_HEIGTH; y++)
-        {
-            input_gs_image[x][y] = processimage[x][y];
-        }
-    }
-}
 
 // This is the relevant custom threshold
 void betterCustomThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)

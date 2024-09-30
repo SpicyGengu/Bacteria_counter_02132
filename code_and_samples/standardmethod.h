@@ -42,7 +42,6 @@ void greyScale2d(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS],
     }
 }
 
-//Outdated bit threshold
 void bitThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH])
 {
     unsigned char processimage[BMP_WIDTH][BMP_HEIGTH];
@@ -57,20 +56,6 @@ void bitThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH])
     {
         for (int y = 0; y < BMP_HEIGTH; y++)
         {
-            input_gs_image[x][y] = processimage[x][y];
-        }
-    }
-}
-
-//Relevant bit threshold
-void betterBitThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH])
-{
-    unsigned char processimage[BMP_WIDTH][BMP_HEIGTH];
-    for (int x = 0; x < BMP_WIDTH; x++)
-    {
-        for (int y = 0; y < BMP_HEIGTH; y++)
-        {
-            processimage[x][y] = (input_gs_image[x][y] <= threshold) ? 0 : 255;
             input_gs_image[x][y] = processimage[x][y];
         }
     }

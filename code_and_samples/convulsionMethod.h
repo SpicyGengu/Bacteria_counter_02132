@@ -181,5 +181,5 @@ void normalizeImage(float image[BMP_WIDTH][BMP_HEIGTH] ){
 void runConvolsionStep(float floatImg[BMP_WIDTH][BMP_HEIGTH], unsigned char charImg[BMP_WIDTH][BMP_HEIGTH], float kernel[kernelSize][kernelSize]){
     convolve(floatImg,charImg,kernel,kernelSize);
     normalizeImage(floatImg);
-    floatToCharImg(floatImg,charImg);
+    //floatToCharImg(floatImg,charImg);
 }

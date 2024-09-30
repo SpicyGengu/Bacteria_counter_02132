@@ -38,10 +38,6 @@ int averageResultSize5(int results[5])
 
 void standardRuns()
 {
-    printf("%s\n", FILE_PATH_FORMAT_EASY);
-    printf("%s\n", FILE_PATH_FORMAT_MEDIUM);
-    printf("%s\n", FILE_PATH_FORMAT_HARD);
-    printf("%s\n", FILE_PATH_FORMAT_IMPOSSIBLE);
     unsigned char(*input_image)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
     if (input_image == NULL)
     {
@@ -77,7 +73,6 @@ void standardRuns()
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
-        printf("Attempting to read: %s ", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         easyRuns[number - 1] = result;
@@ -93,7 +88,6 @@ void standardRuns()
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
-        printf("Attempting to read: %s ", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         mediumRuns[number - 1] = result;
@@ -109,7 +103,6 @@ void standardRuns()
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
-        printf("Attempting to read: %s ", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         hardRuns[number - 1] = result;
