@@ -63,6 +63,7 @@ void standardRuns()
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
+        printf("Attempting to read: %s\n", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         easyRuns[number - 1] = result;
@@ -78,6 +79,7 @@ void standardRuns()
     {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
+        printf("Attempting to read: %s\n", file_path);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         mediumRuns[number - 1] = result;
