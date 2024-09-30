@@ -11,7 +11,7 @@ void standardRuns() {
     int impossibleRuns[5];
 
     printf("INTEGRATION TESTS FOR BASELINE METHOD\n");
-
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
     // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++) {
@@ -24,6 +24,7 @@ void standardRuns() {
     }
     printf("Average: %d/300",averageResult(easyRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
 
     // Medium Difficulties
@@ -38,6 +39,7 @@ void standardRuns() {
     }
     printf("Average: %d/300",averageResult(mediumRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
     // Hard Difficulties
     printf("Hard difficulties:       ");
@@ -51,6 +53,7 @@ void standardRuns() {
     }
     printf("Average: %d/300",averageResult(hardRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
     // Impossible Difficulties
     printf("Impossible Difficulties: ");
@@ -63,7 +66,9 @@ void standardRuns() {
         printf("%d/300 ", result);
     }
     printf("                                        Average: %d/300",averageResultSize5(impossibleRuns));
-    printf("\n\n");
+    printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n\n");
+
 
 }
 
@@ -76,6 +81,7 @@ void improvedRuns() {
     int impossibleRuns[5];
 
     printf("INTEGRATION TESTS FOR IMPROVED METHOD\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
     // Easy Difficulties
     printf("Easy difficulties:       ");
@@ -89,6 +95,8 @@ void improvedRuns() {
     }
     printf("Average: %d/300",averageResult(easyRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
+
 
 
     // Medium Difficulties
@@ -103,6 +111,7 @@ void improvedRuns() {
     }
     printf("Average: %d/300",averageResult(mediumRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
     // Hard Difficulties
     printf("Hard difficulties:       ");
@@ -116,6 +125,7 @@ void improvedRuns() {
     }
     printf("Average: %d/300",averageResult(hardRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
     // Impossible Difficulties
     printf("Impossible Difficulties: ");
@@ -129,5 +139,6 @@ void improvedRuns() {
     }
     printf("                                        Average: %d/300",averageResultSize5(impossibleRuns));
     printf("\n");
+    printf("-------------------------------------------------------------------------------------------------------------------------\n");
 
 }

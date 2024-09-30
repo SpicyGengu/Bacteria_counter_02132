@@ -4,6 +4,8 @@
 //#include <unistd.h>
 #include <math.h>
 
+#define detectionSizeIMP 15 // CHANGE THIS ONE. HAS TO BE ODD NUMBER. Må åbenbart ikke være større end 15
+unsigned const maxTravelImp = (detectionSizeIMP / 2) - 0.5;
 
 int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     int histogram[256] = {0};
@@ -89,13 +91,13 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
 {
     // CHECKS 15x15 area
     int withinExclusion = 0;
-    int zDistX = min(maxTravel, centerX);
-    int zDistY = min(maxTravel, centerY);
-    int eDistX = min((BMP_WIDTH - 1) - centerX, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - centerY, maxTravel);
+    int zDistX = min(maxTravelImp, centerX);
+    int zDistY = min(maxTravelImp, centerY);
+    int eDistX = min((BMP_WIDTH - 1) - centerX, maxTravelImp);
+    int eDistY = min((BMP_HEIGTH - 1) - centerY, maxTravelImp);
 
     // Check border
-    if (zDistY == maxTravel) // Top
+    if (zDistY == maxTravelImp) // Top
     {
         for (int dhx = centerX - zDistX; dhx <= centerX + eDistX-1; dhx++)
         {
@@ -106,7 +108,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         }
     }
 
-    if (zDistX == maxTravel) // Left
+    if (zDistX == maxTravelImp) // Left
     {
         for (int dhy = centerY - zDistY; dhy <= centerY + eDistY-1; dhy++)
         {
@@ -117,7 +119,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         }
     }
 
-    if (eDistY == maxTravel) // Bottom
+    if (eDistY == maxTravelImp) // Bottom
     {
         for (int dhx = centerX - zDistX; dhx <= centerX + eDistX-1; dhx++)
         {
@@ -128,7 +130,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         }
     }
 
-    if (eDistX == maxTravel) // Right
+    if (eDistX == maxTravelImp) // Right
     {
         for (int dhy = centerY - zDistY; dhy <= centerY + eDistY-1; dhy++)
         {
@@ -143,10 +145,10 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         return 0;
     }
 
-    zDistX = min((maxTravel - 1), centerX);
-    zDistY = min((maxTravel - 1), centerY);
-    eDistX = min((BMP_WIDTH - 1) - centerX, (maxTravel - 1));
-    eDistY = min((BMP_HEIGTH - 1) - centerY, (maxTravel - 1));
+    zDistX = min((maxTravelImp - 1), centerX);
+    zDistY = min((maxTravelImp - 1), centerY);
+    eDistX = min((BMP_WIDTH - 1) - centerX, (maxTravelImp - 1));
+    eDistY = min((BMP_HEIGTH - 1) - centerY, (maxTravelImp - 1));
 
     for (int i = centerX - zDistX; i < centerX + eDistX; i++)
     {
@@ -164,10 +166,10 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
 
 void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
-    int zDistX = min(maxTravel + 1, x);
-    int zDistY = min(maxTravel + 1 , y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel + 1);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel + 1);
+    int zDistX = min(maxTravelImp + 1, x);
+    int zDistY = min(maxTravelImp + 1 , y);
+    int eDistX = min((BMP_WIDTH - 1) - x, maxTravelImp + 1);
+    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
     for (int i = -1; i < 2; i++)
     {
         for (int xline = x - zDistX; xline <= x + eDistX; xline++)
@@ -188,10 +190,10 @@ void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][
 
 void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
-    int zDistX = min(maxTravel + 1, x);
-    int zDistY = min(maxTravel + 1, y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel + 1);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel + 1);
+    int zDistX = min(maxTravelImp + 1, x);
+    int zDistY = min(maxTravelImp + 1, y);
+    int eDistX = min((BMP_WIDTH - 1) - x, maxTravelImp + 1);
+    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
     for (int i = x - zDistX; i <= x + eDistX; i++)
     {
         for (int j = y - zDistY; j <= y + eDistY; j++)
