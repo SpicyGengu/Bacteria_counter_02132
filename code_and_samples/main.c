@@ -3,7 +3,7 @@
 #include "cbmp.h"
 //#include<unistd.h>
 #include <math.h>
-#include "bottleNeckmethod.h"
+#include "convulsionMethod.h"
 #include "standardmethod.h"
 #include "improvements.h"
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
       // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
-    customThreshold(imageToProcess,applyOtsu(imageToProcess));
+    customThreshold(imageToProcess,90);
     
     while(erode(imageToProcess)){
         detectImprovement(imageToProcess,input_image);

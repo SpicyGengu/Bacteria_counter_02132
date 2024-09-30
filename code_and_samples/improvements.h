@@ -164,10 +164,10 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
 
 void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
-    int zDistX = min(maxTravel, x);
-    int zDistY = min(maxTravel, y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
+    int zDistX = min(maxTravel + 1, x);
+    int zDistY = min(maxTravel + 1 , y);
+    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel + 1);
+    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel + 1);
     for (int i = -1; i < 2; i++)
     {
         for (int xline = x - zDistX; xline <= x + eDistX; xline++)
@@ -188,10 +188,10 @@ void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][
 
 void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
-    int zDistX = min(maxTravel, x);
-    int zDistY = min(maxTravel, y);
-    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel);
-    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel);
+    int zDistX = min(maxTravel + 1, x);
+    int zDistY = min(maxTravel + 1, y);
+    int eDistX = min((BMP_WIDTH - 1) - x, maxTravel + 1);
+    int eDistY = min((BMP_HEIGTH - 1) - y, maxTravel + 1);
     for (int i = x - zDistX; i <= x + eDistX; i++)
     {
         for (int j = y - zDistY; j <= y + eDistY; j++)

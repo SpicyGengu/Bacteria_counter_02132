@@ -6,7 +6,7 @@
 
 unsigned const threshold = 90;
 unsigned int totalCount = 0;
-#define detectionSize 21 // CHANGE THIS ONE. HAS TO BE ODD NUMBER
+#define detectionSize 15 // CHANGE THIS ONE. HAS TO BE ODD NUMBER
 unsigned const maxTravel = (detectionSize / 2) - 0.5;
 
 // Function to invert pixels of an image (negative)
