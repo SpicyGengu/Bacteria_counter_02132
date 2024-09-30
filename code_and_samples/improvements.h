@@ -68,6 +68,7 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     return round(best_threshold);
 }
 
+// This is the old version of custom threshold
 void customThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)
 {
     unsigned char processimage[BMP_WIDTH][BMP_HEIGTH];
@@ -82,6 +83,20 @@ void customThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float 
     {
         for (int y = 0; y < BMP_HEIGTH; y++)
         {
+            input_gs_image[x][y] = processimage[x][y];
+        }
+    }
+}
+
+// This is the relevant custom threshold
+void betterCustomThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)
+{
+    unsigned char processimage[BMP_WIDTH][BMP_HEIGTH];
+    for (int x = 0; x < BMP_WIDTH; x++)
+    {
+        for (int y = 0; y < BMP_HEIGTH; y++)
+        {
+            processimage[x][y] = (input_gs_image[x][y] <= otsuHold) ? 0 : 255;
             input_gs_image[x][y] = processimage[x][y];
         }
     }
