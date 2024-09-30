@@ -47,6 +47,20 @@ void standardRuns()
     {
         fprintf(stderr, "Memory allocation failed\n");
         return; // Handle the error appropriately
+    }else{
+        for (int i = 0; i < BMP_WIDTH; i++)
+        {
+            for (int ii = 0; ii < BMP_HEIGTH; ii++)
+            {
+                for (int iii = 0; iii < BMP_CHANNELS; iii++)
+                {
+                    input_image[i][ii][iii] = 0;
+                }
+                
+            }
+            
+        }
+        
     }
     char file_path[100];
     int easyRuns[10];
