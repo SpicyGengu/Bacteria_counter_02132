@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
   standardRuns();
 
-  improvedRuns();
+  //improvedRuns();
 
   //write_bitmap(input_image,argv[2]);
   

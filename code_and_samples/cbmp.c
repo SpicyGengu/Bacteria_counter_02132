@@ -80,18 +80,16 @@ void _map(BMP* bmp, void (*f)(BMP* bmp, int, int, int));
 void _get_pixel(BMP* bmp, int index, int offset, int channel);
 
 // Public function implementations
-char read_bitmap(char * input_file_path, unsigned char output_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]){
+void read_bitmap(char * input_file_path, unsigned char output_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]){
   // Read image into BMP struct
   BMP* in_bmp = bopen(input_file_path);
   int width = get_width(in_bmp);
   int height = get_height(in_bmp);
   if (width != BMP_WIDTH || height != BMP_HEIGTH) {
     _throw_error("Invalid bitmap width and/or height. Must be 950x950 pixels.");
-    return 0;
   }
   if (out_bmp==NULL) {
     out_bmp = b_deep_copy(in_bmp);
-    return 0;
   }
   // Convert to RGB array
   unsigned char r;
@@ -108,7 +106,6 @@ char read_bitmap(char * input_file_path, unsigned char output_image_array[BMP_WI
       }
   }
   bclose(in_bmp);
-  return 1;
 }
 
 void write_bitmap(unsigned char input_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], char * output_file_path){
