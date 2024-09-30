@@ -4,10 +4,10 @@
 
 #ifdef _WIN32
     #include <windows.h>
-    #define FILE_PATH_FORMAT_EASY "samples\\easy\\%dEASY.bmp"
-    #define FILE_PATH_FORMAT_MEDIUM "samples\\medium\\%dMEDIUM.bmp"
-    #define FILE_PATH_FORMAT_HARD "samples\\hard\\%dHARD.bmp"
-    #define FILE_PATH_FORMAT_IMPOSSIBLE "samples\\impossible\\%dIMPOSSIBLE.bmp"
+    #define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
+    #define FILE_PATH_FORMAT_MEDIUM "samples/medium/%dMEDIUM.bmp"
+    #define FILE_PATH_FORMAT_HARD "samples/hard/%dHARD.bmp"
+    #define FILE_PATH_FORMAT_IMPOSSIBLE "samples/impossible/%dIMPOSSIBLE.bmp"
 #else
     #include <unistd.h>
     #define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
@@ -46,29 +46,15 @@ void standardRuns() {
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
     
     // Easy Difficulties
-    // Easy Difficulties
     printf("Easy difficulties:       ");
     for (int number = 1; number <= 10; number++) {
         totalCount = 0;
-        char file_path[100];
-        
-        // Construct file path and check existence
-        if (snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number) < 0) {
-            fprintf(stderr, "Error constructing file path\n");
-            return; // Exit or handle the error appropriately
-        }
-
-        if (access(file_path, F_OK) != 0) {
-            fprintf(stderr, "File does not exist: %s\n", file_path);
-            return; // Exit or handle the error appropriately
-        }
-
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         read_bitmap(file_path, input_image);
         int result = runBaseline(input_image);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
-    
     printf("Average: %d/300", averageResult(easyRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
