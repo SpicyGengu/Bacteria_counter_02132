@@ -16,9 +16,9 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     int histogram[256] = {0};
     float cumulative[256] = {0.0f};
     float var[256] = {0.0f};
-    int total_pixels = BMP_WIDTH * BMP_HEIGTH;
+    int totalPixels = BMP_WIDTH * BMP_HEIGTH;
     int sum = 0;
-    float mean_total = 0.0f;
+    float meanTotal = 0.0f;
     
     //Histogram
     for (int x = 0; x < BMP_WIDTH; x++) {
@@ -29,44 +29,44 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
         }
     }
 
-    mean_total = sum / (float)total_pixels;
+    meanTotal = sum / (float)totalPixels;
 
-    int cumulative_sum = 0;
+    int cumulativeSum = 0;
     for (int i = 0; i < 256; i++) {
-        cumulative_sum += histogram[i];
-        cumulative[i] = cumulative_sum / (float)total_pixels;
+        cumulativeSum += histogram[i];
+        cumulative[i] = cumulativeSum / (float)totalPixels;
     }
 
-    float max_variance = 0;
-    int best_threshold = 0;
+    float maxVariance = 0;
+    int bestThreshold = 0;
 
     for (int i = 0; i < 256; i++) {
-        int sum_class1 = 0;
-        int sum_class2 = 0;
-        float mean_class1 = 0.0f;
-        float mean_class2 = 0.0f;
+        int sumClass1 = 0;
+        int sumClass2 = 0;
+        float meanClass1 = 0.0f;
+        float meanClass2 = 0.0f;
         
         // Class 1 background
         for (int j = 0; j <= i; j++) {
-            sum_class1 += j * histogram[j];
+            sumClass1 += j * histogram[j];
         }
-        mean_class1 = sum_class1 / (cumulative[i] * total_pixels);
+        meanClass1 = sumClass1 / (cumulative[i] * totalPixels);
 
         // Class 2 foreground
         for (int j = i + 1; j < 256; j++) {
-            sum_class2 += j * histogram[j];
+            sumClass2 += j * histogram[j];
         }
-        mean_class2 = sum_class2 / ((1 - cumulative[i]) * total_pixels);
+        meanClass2 = sumClass2 / ((1 - cumulative[i]) * totalPixels);
 
         //Variance
-        var[i] = cumulative[i] * (1 - cumulative[i]) * (mean_class1 - mean_class2) * (mean_class1 - mean_class2);
+        var[i] = cumulative[i] * (1 - cumulative[i]) * (meanClass1 - meanClass2) * (meanClass1 - meanClass2);
 
-        if (var[i] > max_variance) {
-            max_variance = var[i];
-            best_threshold = i;
+        if (var[i] > maxVariance) {
+            maxVariance = var[i];
+            bestThreshold = i;
         }
     }
-    return round(best_threshold);
+    return round(bestThreshold);
 }
 
 

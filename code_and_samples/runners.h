@@ -1,5 +1,6 @@
 #include "standardmethod.h"
 #include "improvements.h"
+#include "dynamicOtsu.h"
 
 int runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
 {
@@ -10,7 +11,7 @@ int runBaseline(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
     // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
-    betterBitThreshold(imageToProcess);
+    bitThreshold(imageToProcess);
 
     while (erode(imageToProcess))
     {
@@ -28,7 +29,9 @@ int runImproved(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
     // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
-    betterCustomThreshold(imageToProcess,applyOtsu(imageToProcess));
+    //betterCustomThreshold(imageToProcess,applyOtsu(imageToProcess));
+
+    dynamicOtsu(imageToProcess);
 
     while (erode(imageToProcess))
     {

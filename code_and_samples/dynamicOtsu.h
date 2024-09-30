@@ -4,114 +4,87 @@
 // #include <unistd.h>
 #include <math.h>
 
-#define SPLITS 5
+#define SPLITS 2
 
-// attempted to make otsu split into 25 sqaures, but due to numbers not
 
-void dynamicOtsu(unsigned char inputImage[BMP_WIDTH][BMP_HEIGTH], unsigned char resultImage[BMP_WIDTH][BMP_HEIGTH])
-{
-    unsigned char histograms[SPLITS][SPLITS][256]; // dimension, row column, then actual values.
+int otsuSmall(unsigned char section[BMP_WIDTH / SPLITS][BMP_HEIGTH / SPLITS], int width, int height) {
+    int histogram[256] = {0};
+    float cumulative[256] = {0.0f};
+    float var[256] = {0.0f};
+    int totalPixels = width * height;
+    int sum = 0;
+    float meanTotal = 0.0f;
+
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            int pixel = section[x][y];
+            histogram[pixel]++;
+            sum += pixel;
+        }
+    }
+
+    meanTotal = sum / (float)totalPixels;
+
+    int cumulativeSum = 0;
+    for (int i = 0; i < 256; i++) {
+        cumulativeSum += histogram[i];
+        cumulative[i] = cumulativeSum / (float)totalPixels;
+    }
+
+    float maxVariance = 0;
+    int bestThreshold = 0;
+
+    for (int i = 0; i < 256; i++) {
+        int sumClass1 = 0;
+        int sumClass2 = 0;
+        float meanClass1 = 0.0f;
+        float meanClass2 = 0.0f;
+
+        for (int j = 0; j <= i; j++) {
+            sumClass1 += j * histogram[j];
+        }
+        if (cumulative[i] > 0) {
+            meanClass1 = sumClass1 / (cumulative[i] * totalPixels);
+        }
+
+        for (int j = i + 1; j < 256; j++) {
+            sumClass2 += j * histogram[j];
+        }
+        if (1 - cumulative[i] > 0) {
+            meanClass2 = sumClass2 / ((1 - cumulative[i]) * totalPixels);
+        }
+
+        var[i] = cumulative[i] * (1 - cumulative[i]) * (meanClass1 - meanClass2) * (meanClass1 - meanClass2);
+
+        if (var[i] > maxVariance) {
+            maxVariance = var[i];
+            bestThreshold = i;
+        }
+    }
+    return bestThreshold;
+}
+
+void dynamicOtsu(unsigned char inputImage[BMP_WIDTH][BMP_HEIGTH]) {
     int maxDistanceVert = BMP_HEIGTH / SPLITS;
     int maxDistanceHorz = BMP_WIDTH / SPLITS;
-    double cumulative[SPLITS][SPLITS][256];
-    double varianceHolder[SPLITS][SPLITS];
-    unsigned char thresholds[SPLITS][SPLITS];
-    int total_pixels = BMP_WIDTH * BMP_HEIGTH;
-    int total_pixels_sector = BMP_WIDTH * BMP_HEIGTH / (SPLITS * SPLITS);
-    double total_pixels_sector_float = (double)total_pixels_sector;
-    int *totalPixelPointer = &total_pixels_sector;
-    printf("total_pixel_sector: %d", total_pixels_sector);
-    printf("float total_pixel_secotre: %f", total_pixels_sector_float);
-    unsigned char startingX[SPLITS] = {maxDistanceHorz * 0, maxDistanceHorz * 1, maxDistanceHorz * 2, maxDistanceHorz * 3, maxDistanceHorz * 4};
-    unsigned char startingY[SPLITS] = {maxDistanceVert * 0, maxDistanceVert * 1, maxDistanceVert * 2, maxDistanceVert * 3, maxDistanceVert * 4};
 
-    int sum = 0;
+    for (int row = 0; row < SPLITS; row++) {
+        for (int column = 0; column < SPLITS; column++) {
+            unsigned char section[maxDistanceHorz][maxDistanceVert];
 
-    // Build the histograms
-    int loopCount = 0;
-    for (int column = 0; column < SPLITS; column++)
-    {
-        for (int row = 0; row < SPLITS; row++)
-        {
-            for (int x = 0; x < maxDistanceHorz; x++)
-            {
-                for (int y = 0; y < maxDistanceVert; y++)
-                {
-                    loopCount++;
-                    histograms[row][column][inputImage[startingX[row] + x][startingY[column] + y]]++;
+            for (int x = 0; x < maxDistanceHorz; x++) {
+                for (int y = 0; y < maxDistanceVert; y++) {
+                    section[x][y] = inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y];
+                }
+            }
+
+            int threshold = otsuSmall(section, maxDistanceHorz, maxDistanceVert);
+
+            for (int x = 0; x < maxDistanceHorz; x++) {
+                for (int y = 0; y < maxDistanceVert; y++) {
+                    inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] = (inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] > threshold) ? 255 : 0;
                 }
             }
         }
     }
-    printf("\n loop count: %d", loopCount);
-    printf("\nMade histograms");
-    printf("\nStart divisor: %d", total_pixels_sector);
-    for (int column = 0; column < SPLITS; column++)
-    {
-        for (int row = 0; row < SPLITS; row++)
-        {
-            for (int pixelValue = 0; pixelValue < 256; pixelValue++)
-            {
-                printf("\nStart divisor: %d", total_pixels_sector);
-                for (int tempValue = 0; tempValue < pixelValue; tempValue++)
-                {
-                    cumulative[row][column][pixelValue] += (double)histograms[row][column][tempValue];
-                }
-                cumulative[row][column][pixelValue] += (double)histograms[row][column][pixelValue];
-                printf("\n cum value:%d, divisor:%d", cumulative[row][column][pixelValue], total_pixels_sector);
-                cumulative[row][column][pixelValue] = cumulative[row][column][pixelValue] / (float)36100;
-                printf("\ncumulative value. row:%d,column:%d,value:%d", row, column, cumulative[row][column][pixelValue]);
-            }
-        }
-    }
-
-    printf("\nCalculated cumulative");
-    // calculate variance for each sector
-    for (int row = 0; row < SPLITS; row++)
-    {
-        for (int column = 0; column < SPLITS; column++)
-        {
-
-            for (int pixelValue = 0; pixelValue < 256; pixelValue++)
-            {
-                double p0 = cumulative[row][column][pixelValue];
-                double p1 = 1 - p0;
-                double m0 = 0;
-                double m1 = 0;
-
-                for (int i = 0; i < pixelValue; i++)
-                {
-                    m0 += i * histograms[row][column][i] / ((p0 == 0 ? 1 : p0) * total_pixels_sector);
-                }
-
-                for (int i = pixelValue; i < 256; i++)
-                {
-                    m1 += i * histograms[row][column][i] / ((p1 == 0 ? 1 : p1) * total_pixels_sector);
-                }
-                // update best threshold
-                unsigned char tempVar = p0 * p1 * (m0 - m1) * (m0 - m1);
-                if (tempVar > varianceHolder[row][column])
-                {
-                    thresholds[row][column] = pixelValue;
-                }
-            }
-        }
-    }
-    printf("\ncalculated thresholds");
-    // apply thresholds
-    for (int row = 0; row < SPLITS; row++)
-    {
-        for (int column = 0; column < SPLITS; column++)
-        {
-            for (int x = 0; x < maxDistanceHorz; x++)
-            {
-                for (int y = 0; y < maxDistanceVert; y++)
-                {
-                    resultImage[startingX[row] + x][startingY[column] + y] = (inputImage[startingX[row] + x][startingY[column] + y] > thresholds[row][column]) ? 255 : 0;
-                }
-            }
-        }
-    }
-    printf("\n total_pixels_sector %d", total_pixels_sector);
-    printf("\nFinshed otsu");
 }
