@@ -29,7 +29,7 @@ int main(int argc, char **argv)
   printf("Done in %f ms!\n",cpu_time_used* 1000 / CLOCKS_PER_SEC);
   printf("Total Cells: %d \n", totalCount);
 
-
+  
   //standardRuns();
   //improvedRuns();
 

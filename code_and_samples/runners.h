@@ -29,9 +29,9 @@ int runImproved(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
     // Run greyscale
     greyScale2d(input_image, imageToProcess);
 
-    //betterCustomThreshold(imageToProcess,applyOtsu(imageToProcess));
+    betterCustomThreshold(imageToProcess,applyOtsu(imageToProcess));
 
-    dynamicOtsu(imageToProcess);
+    //dynamicOtsu(imageToProcess);
 
     while (erode(imageToProcess))
     {
