@@ -14,6 +14,11 @@
 #define FILE_PATH_FORMAT_MEDIUM "samples/medium/%dMEDIUM.bmp"
 #define FILE_PATH_FORMAT_HARD "samples/hard/%dHARD.bmp"
 #define FILE_PATH_FORMAT_IMPOSSIBLE "samples/impossible/%dIMPOSSIBLE.bmp"
+
+#define FILE_PATH_FORMAT_EASYOUTPUT "samples_results/easy/%dEASY_CROSSED.bmp"
+#define FILE_PATH_FORMAT_MEDIUMOUTPUT "samples_results/medium/%dMEDIUM_CROSSED.bmp"
+#define FILE_PATH_FORMAT_HARDOUTPUT "samples_results/hard/%dHARD_CROSSED.bmp"
+#define FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT "samples_results/impossible/%dIMPOSSIBLE_CROSSED.bmp"
 #endif
 
 int averageResult(int results[10])
@@ -58,7 +63,7 @@ void standardRuns()
         }
         
     }
-    char file_path[100];
+    char file_path[256];
     int easyRuns[10];
     int mediumRuns[10];
     int hardRuns[10];
@@ -131,8 +136,12 @@ void standardRuns()
 
 void improvedRuns()
 {
-    unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS];
-    char file_path[100];
+    unsigned char (*input_image)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
+    if (input_image == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return;
+    }
+    char file_path[255];
     int easyRuns[10];
     int mediumRuns[10];
     int hardRuns[10];
@@ -149,13 +158,14 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASYOUTPUT, number);
+        write_bitmap(input_image,file_path);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
     printf("Average: %d/300", averageResult(easyRuns));
     printf("\n");
     printf("-------------------------------------------------------------------------------------------------------------------------\n");
-
     // Medium Difficulties
     printf("Medium difficulties:     ");
     for (int number = 1; number <= 10; number++)
@@ -164,6 +174,8 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUMOUTPUT, number);
+        write_bitmap(input_image,file_path);
         mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -179,6 +191,8 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARDOUTPUT, number);
+        write_bitmap(input_image,file_path);
         hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -194,6 +208,8 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
+        write_bitmap(input_image,file_path);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
