@@ -8,6 +8,10 @@
 #define FILE_PATH_FORMAT_MEDIUM "samples\\medium\\%dMEDIUM.bmp"
 #define FILE_PATH_FORMAT_HARD "samples\\hard\\%dHARD.bmp"
 #define FILE_PATH_FORMAT_IMPOSSIBLE "samples\\impossible\\%dIMPOSSIBLE.bmp"
+#define FILE_PATH_FORMAT_EASYOUTPUT "samples_results\\easy\\%dEASY_CROSSED.bmp"
+#define FILE_PATH_FORMAT_MEDIUMOUTPUT "samples_results\\medium\\%dMEDIUM_CROSSED.bmp"
+#define FILE_PATH_FORMAT_HARDOUTPUT "samples_results\\hard\\%dHARD_CROSSED.bmp"
+#define FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT "samples_results\\impossible\\%dIMPOSSIBLE_CROSSED.bmp"
 #else
 #include <unistd.h>
 #define FILE_PATH_FORMAT_EASY "samples/easy/%dEASY.bmp"
