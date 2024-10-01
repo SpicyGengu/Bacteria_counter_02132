@@ -4,6 +4,8 @@
 #include <math.h>
 #include "integrationTests.h"
 #include <time.h>
+  
+  unsigned char input_image[BMP_HEIGTH][BMP_WIDTH][BMP_CHANNELS];
 
 // Main function
 int main(int argc, char **argv)
@@ -17,7 +19,7 @@ int main(int argc, char **argv)
   printf("Custom program - 02132 - A1\n");
   
 
-  unsigned char input_image[BMP_HEIGTH][BMP_WIDTH][BMP_CHANNELS];
+
   read_bitmap(argv[1], input_image);
   clock_t start, end;
   double cpu_time_used;
@@ -29,9 +31,16 @@ int main(int argc, char **argv)
   printf("Done in %f ms!\n",cpu_time_used* 1000 / CLOCKS_PER_SEC);
   printf("Total Cells: %d \n", totalCount);
 
-  
-  //standardRuns();
-  //improvedRuns();
+  start = clock();
+  standardRuns();
+  end = clock();
+  cpu_time_used = end - start;
+  printf("Baseline Integration tests done in %f ms!\n",cpu_time_used* 1000 / CLOCKS_PER_SEC);
+  start = clock();
+  improvedRuns();
+  end = clock();
+  cpu_time_used = end - start;
+  printf("Improved Integration tests done in %f ms!\n",cpu_time_used* 1000 / CLOCKS_PER_SEC);
 
 
   return 0;
