@@ -250,7 +250,7 @@ void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsign
         {
             if (eroded_image[x][y] && detectHelperWithTolerence(x, y, eroded_image))
             {
-                // printf("Found a cell at %d %d\n", x, y);
+                // printf("Found a cell at %d %d\n", x, y); // Remove to see every cell detected
                 makeCrossForImprovement(x, y, image);
                 totalCount++;
                 overWriteForImprovement(x, y, eroded_image);

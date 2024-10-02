@@ -74,14 +74,14 @@ void standardRuns() {
     for (int number = 1; number <= 10; number++) {
     totalCount = 0;
     snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
-    //printf("Reading bitmap from: %s\n", file_path); // Debug statement
 
-    int readResult = read_bitmap(file_path, basicRunImage); // Store the result of read_bitmap
-    if (readResult == 1) { // Check for error
+
+    int readResult = read_bitmap(file_path, basicRunImage);
+    if (readResult == 1) { 
         fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-        continue; // Skip this iteration if there's an error
+        continue;
     } else {
-        //printf("Bitmap read successfully from: %s\n", file_path); // Debug statement for successful read
+        //printf("Bitmap read successfully from: %s\n", file_path); // Debug statement for successful read // Debug message outcommented
     }
         int result = runBaseline(basicRunImage);
         easyRuns[number - 1] = result;
@@ -97,9 +97,9 @@ void standardRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) { // Check for error
+        if (read_bitmap(file_path, basicRunImage) == 1) { 
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runBaseline(basicRunImage);
         mediumRuns[number - 1] = result;
@@ -115,9 +115,9 @@ void standardRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) { // Check for error
+        if (read_bitmap(file_path, basicRunImage) == 1) { 
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runBaseline(basicRunImage);
         hardRuns[number - 1] = result;
@@ -133,9 +133,9 @@ void standardRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) { // Check for error
+        if (read_bitmap(file_path, basicRunImage) == 1) {
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runBaseline(basicRunImage);
         impossibleRuns[number - 1] = result;
@@ -177,9 +177,9 @@ void improvedRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) { // Check for error
+        if (read_bitmap(file_path, improved_runImage) == 1) {
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runImproved(improved_runImage);
         easyRuns[number - 1] = result;
@@ -195,9 +195,9 @@ void improvedRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) { // Check for error
+        if (read_bitmap(file_path, improved_runImage) == 1) {
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runImproved(improved_runImage);
         mediumRuns[number - 1] = result;
@@ -213,9 +213,9 @@ void improvedRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) { // Check for error
+        if (read_bitmap(file_path, improved_runImage) == 1) {
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runImproved(improved_runImage);
         hardRuns[number - 1] = result;
@@ -231,9 +231,9 @@ void improvedRuns() {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) { // Check for error
+        if (read_bitmap(file_path, improved_runImage) == 1) {
             fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue; // Skip this iteration if there's an error
+            continue;
         }
         int result = runImproved(improved_runImage);
         impossibleRuns[number - 1] = result;

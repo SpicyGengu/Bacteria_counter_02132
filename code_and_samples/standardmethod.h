@@ -252,7 +252,7 @@ void detect(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned char ima
         {
             if (eroded_image[x][y] && detectHelper(x, y, eroded_image))
             {
-                // printf("Found a cell at %d %d\n", x, y);
+                // printf("Found a cell at %d %d\n", x, y); // Remove to see every cell found
                 makeCross(x, y, image);
                 totalCount++;
                 overWrite(x, y, eroded_image);
