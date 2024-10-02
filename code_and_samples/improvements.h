@@ -18,21 +18,15 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH])
     float cumulative[256] = {0.0f};
     float var[256] = {0.0f};
     int totalPixels = BMP_WIDTH * BMP_HEIGTH;
-    int sum = 0;
-    float meanTotal = 0.0f;
 
     // Histogram
     for (int x = 0; x < BMP_WIDTH; x++)
     {
         for (int y = 0; y < BMP_HEIGTH; y++)
         {
-            int pixel = image[x][y];
-            histogram[pixel]++;
-            sum += pixel; // Sum of pixel values
+            histogram[image[x][y]]++;
         }
     }
-
-    meanTotal = sum / (float)totalPixels;
 
     int cumulativeSum = 0;
     for (int i = 0; i < 256; i++)
