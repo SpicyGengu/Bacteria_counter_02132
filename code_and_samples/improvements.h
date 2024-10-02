@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cbmp.h"
-//#include <unistd.h>
+// #include <unistd.h>
 #include <math.h>
 
 #define detectionSizeIMP 15 // CHANGE THIS ONE. HAS TO BE ODD NUMBER. Må åbenbart ikke være større end 15
@@ -12,27 +12,25 @@ int myMinIMP(int x, int y)
     return x < y ? x : y;
 }
 
-int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
+int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH])
+{
     int histogram[256] = {0};
     float cumulative[256] = {0.0f};
     float var[256] = {0.0f};
     int totalPixels = BMP_WIDTH * BMP_HEIGTH;
-    int sum = 0;
-    float meanTotal = 0.0f;
-    
-    //Histogram
-    for (int x = 0; x < BMP_WIDTH; x++) {
-        for (int y = 0; y < BMP_HEIGTH; y++) {
-            int pixel = image[x][y];
-            histogram[pixel]++;
-            sum += pixel;  // Sum of pixel values
+
+    // Histogram
+    for (int x = 0; x < BMP_WIDTH; x++)
+    {
+        for (int y = 0; y < BMP_HEIGTH; y++)
+        {
+            histogram[image[x][y]]++;
         }
     }
 
-    meanTotal = sum / (float)totalPixels;
-
     int cumulativeSum = 0;
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++)
+    {
         cumulativeSum += histogram[i];
         cumulative[i] = cumulativeSum / (float)totalPixels;
     }
@@ -40,35 +38,38 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH]) {
     float maxVariance = 0;
     int bestThreshold = 0;
 
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++)
+    {
         int sumClass1 = 0;
         int sumClass2 = 0;
         float meanClass1 = 0.0f;
         float meanClass2 = 0.0f;
-        
+
         // Class 1 background
-        for (int j = 0; j <= i; j++) {
+        for (int j = 0; j <= i; j++)
+        {
             sumClass1 += j * histogram[j];
         }
         meanClass1 = sumClass1 / (cumulative[i] * totalPixels);
 
         // Class 2 foreground
-        for (int j = i + 1; j < 256; j++) {
+        for (int j = i + 1; j < 256; j++)
+        {
             sumClass2 += j * histogram[j];
         }
         meanClass2 = sumClass2 / ((1 - cumulative[i]) * totalPixels);
 
-        //Variance
+        // Variance
         var[i] = cumulative[i] * (1 - cumulative[i]) * (meanClass1 - meanClass2) * (meanClass1 - meanClass2);
 
-        if (var[i] > maxVariance) {
+        if (var[i] > maxVariance)
+        {
             maxVariance = var[i];
             bestThreshold = i;
         }
     }
     return round(bestThreshold);
 }
-
 
 // This is the relevant custom threshold
 void betterCustomThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)
@@ -95,49 +96,50 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     // Check border
     if (zDistY == maxTravelImp) // Top
     {
-        for (int dhx = centerX - zDistX; dhx <= centerX + eDistX-1; dhx++)
+        for (int dhx = centerX - zDistX; dhx <= centerX + eDistX - 1; dhx++)
         {
             if (image[dhx][centerY - zDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
             {
-                withinExclusion ++;
+                withinExclusion++;
             }
         }
     }
 
     if (zDistX == maxTravelImp) // Left
     {
-        for (int dhy = centerY - zDistY; dhy <= centerY + eDistY-1; dhy++)
+        for (int dhy = centerY - zDistY; dhy <= centerY + eDistY - 1; dhy++)
         {
             if (image[centerX - zDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
             {
-                withinExclusion ++;
+                withinExclusion++;
             }
         }
     }
 
     if (eDistY == maxTravelImp) // Bottom
     {
-        for (int dhx = centerX - zDistX; dhx <= centerX + eDistX-1; dhx++)
+        for (int dhx = centerX - zDistX; dhx <= centerX + eDistX - 1; dhx++)
         {
             if (image[dhx][centerY + eDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
             {
-                withinExclusion ++;
+                withinExclusion++;
             }
         }
     }
 
     if (eDistX == maxTravelImp) // Right
     {
-        for (int dhy = centerY - zDistY; dhy <= centerY + eDistY-1; dhy++)
+        for (int dhy = centerY - zDistY; dhy <= centerY + eDistY - 1; dhy++)
         {
             if (image[centerX + eDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
             {
-                withinExclusion ++;
+                withinExclusion++;
             }
         }
     }
 
-    if (withinExclusion > 3){
+    if (withinExclusion > 3)
+    {
         return 0;
     }
 
@@ -163,7 +165,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
 void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
     int zDistX = myMinIMP(maxTravelImp + 1, x);
-    int zDistY = myMinIMP(maxTravelImp + 1 , y);
+    int zDistY = myMinIMP(maxTravelImp + 1, y);
     int eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp + 1);
     int eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
     for (int i = -1; i < 2; i++)
@@ -199,7 +201,7 @@ void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HE
     }
 }
 
-void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH],unsigned char image[BMP_WIDTH][BMP_HEIGTH][3])
+void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsigned char image[BMP_WIDTH][BMP_HEIGTH][3])
 {
     for (int x = 0; x < BMP_WIDTH; x++)
     {
@@ -207,7 +209,7 @@ void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH],unsigne
         {
             if (eroded_image[x][y] && detectHelperWithTolerence(x, y, eroded_image))
             {
-                //printf("Found a cell at %d %d\n", x, y);
+                // printf("Found a cell at %d %d\n", x, y);
                 makeCrossForImprovement(x, y, image);
                 totalCount++;
                 overWriteForImprovement(x, y, eroded_image);
