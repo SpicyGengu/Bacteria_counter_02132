@@ -51,7 +51,7 @@ void standardRuns()
     if (input_image == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        return; // Handle the error appropriately
+        exit(1);
     }else{
         for (int i = 0; i < BMP_WIDTH; i++)
         {
@@ -143,7 +143,7 @@ void improvedRuns()
     unsigned char (*input_image)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
     if (input_image == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        return;
+        exit(1);
     }
     char file_path[255];
     int easyRuns[10];
