@@ -74,7 +74,6 @@ int applyOtsu(unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 // This is the relevant custom threshold
 void betterCustomThreshold(unsigned char input_gs_image[BMP_WIDTH][BMP_HEIGTH], float otsuHold)
 {
-
     for (int x = 0; x < BMP_WIDTH; x++)
     {
         for (int y = 0; y < BMP_HEIGTH; y++)
@@ -98,7 +97,9 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     {
         for (int dhx = centerX - zDistX; dhx <= centerX + eDistX - 1; dhx++)
         {
-            if (image[dhx][centerY - zDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
+            if (dhx < 0 || dhx >= BMP_WIDTH || centerY - zDistY < 0 || centerY - zDistY >= BMP_HEIGTH) {
+                printf("Out of bounds at Top: (%d, %d)\n", dhx, centerY - zDistY);
+            } else if (image[dhx][centerY - zDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
             {
                 withinExclusion++;
             }
@@ -109,7 +110,9 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     {
         for (int dhy = centerY - zDistY + 1; dhy <= centerY + eDistY - 1; dhy++)
         {
-            if (image[centerX - zDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
+            if (centerX - zDistX < 0 || centerX - zDistX >= BMP_WIDTH || dhy < 0 || dhy >= BMP_HEIGTH) {
+                printf("Out of bounds at Left: (%d, %d)\n", centerX - zDistX, dhy);
+            } else if (image[centerX - zDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
             {
                 withinExclusion++;
             }
@@ -120,7 +123,9 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     {
         for (int dhx = centerX - zDistX; dhx <= centerX + eDistX - 1; dhx++)
         {
-            if (image[dhx][centerY + eDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
+            if (dhx < 0 || dhx >= BMP_WIDTH || centerY + eDistY < 0 || centerY + eDistY >= BMP_HEIGTH) {
+                printf("Out of bounds at Bottom: (%d, %d)\n", dhx, centerY + eDistY);
+            } else if (image[dhx][centerY + eDistY] && dhx != 0 && dhx != BMP_WIDTH - 1)
             {
                 withinExclusion++;
             }
@@ -131,7 +136,9 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     {
         for (int dhy = centerY - zDistY; dhy <= centerY + eDistY; dhy++)
         {
-            if (image[centerX + eDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
+            if (centerX + eDistX < 0 || centerX + eDistX >= BMP_WIDTH || dhy < 0 || dhy >= BMP_HEIGTH) {
+                printf("Out of bounds at Right: (%d, %d)\n", centerX + eDistX, dhy);
+            } else if (image[centerX + eDistX][dhy] && dhy != 0 && dhy != BMP_WIDTH - 1)
             {
                 withinExclusion++;
             }
@@ -152,7 +159,9 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
     {
         for (int j = centerY - zDistY; j < centerY + eDistY; j++)
         {
-            if (image[i][j])
+            if (i < 0 || i >= BMP_WIDTH || j < 0 || j >= BMP_HEIGTH) {
+                printf("Out of bounds in detectHelper: (%d, %d)\n", i, j);
+            } else if (image[i][j])
             {
                 return 1;
             }
@@ -168,23 +177,51 @@ void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][
     unsigned char zDistY = myMinIMP(maxTravelImp + 1, y);
     unsigned char eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp + 1);
     unsigned char eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
+
+    int startX = x - zDistX;
+    int endX = x + eDistX;
+    int startY = y - zDistY;
+    int endY = y + eDistY;
+
+    if (startX < 0) startX = 0;
+    if (endX >= BMP_WIDTH) endX = BMP_WIDTH - 1;
+
+    if (startY < 0) startY = 0;
+    if (endY >= BMP_HEIGTH) endY = BMP_HEIGTH - 1;
+
     for (int i = -1; i < 2; i++)
     {
-        for (int xline = x - zDistX; xline <= x + eDistX; xline++)
-        {
-            input_image[xline][y + i][0] = 255;
-            input_image[xline][y + i][1] = 0;
-            input_image[xline][y + i][2] = 0;
+        int yline = y + i;
+        if (yline >= 0 && yline < BMP_HEIGTH) {
+            for (int xline = startX; xline <= endX; xline++)
+            {
+                input_image[xline][yline][0] = 255;
+                input_image[xline][yline][1] = 0;
+                input_image[xline][yline][2] = 0;
+            }
         }
+    }
 
-        for (int yline = y - zDistY; yline <= y + eDistY; yline++)
-        {
-            input_image[x + i][yline][0] = 255;
-            input_image[x + i][yline][1] = 0;
-            input_image[x + i][yline][2] = 0;
+    for (int i = -1; i < 2; i++)
+    {
+        int xline = x + i;
+        xline = (xline < 0) ? 0 : xline; 
+        if (xline < BMP_WIDTH) {
+            for (int yline = startY; yline <= endY; yline++)
+            {
+                yline = (yline < 0) ? 0 : yline; 
+                if (yline < BMP_HEIGTH) {
+                    input_image[xline][yline][0] = 255;
+                    input_image[xline][yline][1] = 0;
+                    input_image[xline][yline][2] = 0;
+                }
+            }
         }
     }
 }
+
+
+
 
 void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
@@ -196,7 +233,11 @@ void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HE
     {
         for (int j = y - zDistY; j <= y + eDistY; j++)
         {
-            image[i][j] = 0;
+            if (i < 0 || i >= BMP_WIDTH || j < 0 || j >= BMP_HEIGTH) {
+                printf("Out of bounds in overWrite: (%d, %d)\n", i, j);
+            } else {
+                image[i][j] = 0;
+            }
         }
     }
 }
@@ -217,6 +258,7 @@ void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsign
         }
     }
 }
+
 char erodeImprovement(unsigned char img_1[BMP_WIDTH][BMP_HEIGTH], unsigned char img_2[BMP_WIDTH][BMP_HEIGTH])
 {
     char waseroded = 0;

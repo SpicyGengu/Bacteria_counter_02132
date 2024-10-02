@@ -186,24 +186,45 @@ char detectHelper(int centerX, int centerY, unsigned char image[BMP_WIDTH][BMP_H
 
 void makeCross(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
-    int zDistX = myMin(maxTravel, x);
-    int zDistY = myMin(maxTravel, y);
-    int eDistX = myMin((BMP_WIDTH - 1) - x, maxTravel);
-    int eDistY = myMin((BMP_HEIGTH - 1) - y, maxTravel);
+    unsigned char zDistX = myMin(maxTravel + 1, x);
+    unsigned char zDistY = myMin(maxTravel + 1, y);
+    unsigned char eDistX = myMin((BMP_WIDTH - 1) - x, maxTravel + 1);
+    unsigned char eDistY = myMin((BMP_HEIGTH - 1) - y, maxTravel + 1);
+
+    int startX = x - zDistX;
+    int endX = x + eDistX;
+    int startY = y - zDistY;
+    int endY = y + eDistY;
+
+    if (startX < 0) startX = 0;
+    if (endX >= BMP_WIDTH) endX = BMP_WIDTH - 1;
+
+    if (startY < 0) startY = 0;
+    if (endY >= BMP_HEIGTH) endY = BMP_HEIGTH - 1;
+
     for (int i = -1; i < 2; i++)
     {
-        for (int xline = x - zDistX; xline <= x + eDistX; xline++)
-        {
-            input_image[xline][y + i][0] = 255;
-            input_image[xline][y + i][1] = 0;
-            input_image[xline][y + i][2] = 0;
+        int yline = y + i;
+        if (yline >= 0 && yline < BMP_HEIGTH) {
+            for (int xline = startX; xline <= endX; xline++)
+            {
+                input_image[xline][yline][0] = 255;
+                input_image[xline][yline][1] = 0;
+                input_image[xline][yline][2] = 0;
+            }
         }
+    }
 
-        for (int yline = y - zDistY; yline <= y + eDistY; yline++)
-        {
-            input_image[x + i][yline][0] = 255;
-            input_image[x + i][yline][1] = 0;
-            input_image[x + i][yline][2] = 0;
+    for (int i = -1; i < 2; i++)
+    {
+        int xline = x + i;
+        if (xline >= 0 && xline < BMP_WIDTH) {
+            for (int yline = startY; yline <= endY; yline++)
+            {
+                input_image[xline][yline][0] = 255;
+                input_image[xline][yline][1] = 0;
+                input_image[xline][yline][2] = 0;
+            }
         }
     }
 }
