@@ -212,8 +212,8 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        // snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
-        // write_bitmap(input_image,file_path);
+        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
+        //write_bitmap(input_image,file_path);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
