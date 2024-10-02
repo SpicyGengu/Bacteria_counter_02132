@@ -29,6 +29,8 @@ int main(int argc, char **argv)
   printf("Done in %f ms!\n", cpu_time_used * 1000 / CLOCKS_PER_SEC);
   printf("Total Cells: %d \n", totalCount);
 
+  /***** Integration Tests Start *****/
+  
   start = clock();
   standardRuns();
   end = clock();
@@ -40,6 +42,7 @@ int main(int argc, char **argv)
   end = clock();
   cpu_time_used = end - start;
   printf("Improved Integration tests done in %f ms!\n", cpu_time_used * 1000 / CLOCKS_PER_SEC);
-
+  
+  /***** Integration Tests End  *****/
   return 0;
 }

@@ -12,6 +12,14 @@ const int sigmaTune = 4;
 float lowest = 0;
 float largest = 0;
 
+void floatToCharImg(float floatImg[BMP_WIDTH][BMP_HEIGTH], unsigned char charImg[BMP_WIDTH][BMP_HEIGTH]){
+    for (int x = 0; x < BMP_WIDTH; x++){
+        for (int y = 0; y < BMP_HEIGTH; y++){
+            charImg[x][y] = floatImg[x][y];
+        }
+    }
+}
+
 void detectBoundary(float image[BMP_WIDTH][BMP_HEIGTH])
 {
     unsigned char borderimage[BMP_WIDTH][BMP_HEIGTH];
@@ -159,7 +167,6 @@ char containsWhite(float image[BMP_WIDTH][BMP_HEIGTH])
 }
 
 
-
 void normalizeImage(float image[BMP_WIDTH][BMP_HEIGTH] ){
     for (int x = 0; x < BMP_WIDTH; x++)
     {
@@ -181,5 +188,5 @@ void normalizeImage(float image[BMP_WIDTH][BMP_HEIGTH] ){
 void runConvolsionStep(float floatImg[BMP_WIDTH][BMP_HEIGTH], unsigned char charImg[BMP_WIDTH][BMP_HEIGTH], float kernel[kernelSize][kernelSize]){
     convolve(floatImg,charImg,kernel,kernelSize);
     normalizeImage(floatImg);
-    //floatToCharImg(floatImg,charImg);
+    floatToCharImg(floatImg,charImg);
 }

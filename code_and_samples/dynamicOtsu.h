@@ -7,7 +7,7 @@
 #define SPLITS 2
 
 
-int otsuSmall(unsigned char section[BMP_WIDTH / SPLITS][BMP_HEIGTH / SPLITS], int width, int height) {
+unsigned char otsuSmall(unsigned char section[BMP_WIDTH / SPLITS][BMP_HEIGTH / SPLITS], int width, int height) {
     int histogram[256] = {0};
     float cumulative[256] = {0.0f};
     float var[256] = {0.0f};
@@ -32,7 +32,7 @@ int otsuSmall(unsigned char section[BMP_WIDTH / SPLITS][BMP_HEIGTH / SPLITS], in
     }
 
     float maxVariance = 0;
-    int bestThreshold = 0;
+    unsigned char bestThreshold = 0;
 
     for (int i = 0; i < 256; i++) {
         int sumClass1 = 0;
@@ -65,8 +65,8 @@ int otsuSmall(unsigned char section[BMP_WIDTH / SPLITS][BMP_HEIGTH / SPLITS], in
 }
 
 void dynamicOtsu(unsigned char inputImage[BMP_WIDTH][BMP_HEIGTH]) {
-    int maxDistanceVert = BMP_HEIGTH / SPLITS;
-    int maxDistanceHorz = BMP_WIDTH / SPLITS;
+    unsigned int maxDistanceVert = BMP_HEIGTH / SPLITS;
+    unsigned int maxDistanceHorz = BMP_WIDTH / SPLITS;
 
     for (int row = 0; row < SPLITS; row++) {
         for (int column = 0; column < SPLITS; column++) {
@@ -78,7 +78,7 @@ void dynamicOtsu(unsigned char inputImage[BMP_WIDTH][BMP_HEIGTH]) {
                 }
             }
 
-            int threshold = otsuSmall(section, maxDistanceHorz, maxDistanceVert);
+            unsigned char threshold = otsuSmall(section, maxDistanceHorz, maxDistanceVert);
             for (int x = 0; x < maxDistanceHorz; x++) {
                 for (int y = 0; y < maxDistanceVert; y++) {
                     inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] = (inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] > threshold) ? 255 : 0;
