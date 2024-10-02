@@ -217,56 +217,32 @@ void detectImprovement(unsigned char eroded_image[BMP_WIDTH][BMP_HEIGTH], unsign
         }
     }
 }
-char erodeImprovement(unsigned char img_1[BMP_WIDTH][BMP_HEIGTH], unsigned char img_2[BMP_WIDTH][BMP_HEIGTH], int iterations)
+char erodeImprovement(unsigned char img_1[BMP_WIDTH][BMP_HEIGTH], unsigned char img_2[BMP_WIDTH][BMP_HEIGTH])
 {
     char waseroded = 0;
-    if (iterations % 2 == 0)
+
+    for (int x = 0; x < BMP_WIDTH; x++)
     {
-        for (int x = 0; x < BMP_WIDTH; x++)
+        for (int y = 0; y < BMP_HEIGTH; y++)
         {
-            for (int y = 0; y < BMP_HEIGTH; y++)
-            {
-                if (img_1[x][y])
-                { // attempt diamond shape erosion, unsuccessul: if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - ((x < 2) ? 0 : 2)][y] && bit_image[x + ((x > BMP_WIDTH - 2) ? 0 : 2)][y] && bit_image[x][y - ((y < 2) ? 0 : 2)] && bit_image[x][y + ((y > BMP_HEIGTH - 2) ? 0 : 2)] && bit_image[x - (x == 0 ? 0 : 1)][y - (y == 0 ? 0 : 1)] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
-                    if (!(img_1[x - (x == 0 ? 0 : 1)][y] && img_1[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && img_1[x][y - (y == 0 ? 0 : 1)] && img_1[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
-                    {
-                        img_2[x][y] = 0;
-                        waseroded = 1;
-                    }
-                    else
-                    {
-                        img_2[x][y] = 255;
-                    }
-                }
-                else
+            if (img_1[x][y])
+            { // attempt diamond shape erosion, unsuccessul: if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - ((x < 2) ? 0 : 2)][y] && bit_image[x + ((x > BMP_WIDTH - 2) ? 0 : 2)][y] && bit_image[x][y - ((y < 2) ? 0 : 2)] && bit_image[x][y + ((y > BMP_HEIGTH - 2) ? 0 : 2)] && bit_image[x - (x == 0 ? 0 : 1)][y - (y == 0 ? 0 : 1)] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
+                if (!(img_1[x - (x == 0 ? 0 : 1)][y] && img_1[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && img_1[x][y - (y == 0 ? 0 : 1)] && img_1[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
                 {
                     img_2[x][y] = 0;
-                }
-            }
-        }
-    }else{
-        for (int x = 0; x < BMP_WIDTH; x++)
-        {
-            for (int y = 0; y < BMP_HEIGTH; y++)
-            {
-                if (img_2[x][y])
-                { // attempt diamond shape erosion, unsuccessul: if (!(bit_image[x - (x == 0 ? 0 : 1)][y] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && bit_image[x][y - (y == 0 ? 0 : 1)] && bit_image[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - ((x < 2) ? 0 : 2)][y] && bit_image[x + ((x > BMP_WIDTH - 2) ? 0 : 2)][y] && bit_image[x][y - ((y < 2) ? 0 : 2)] && bit_image[x][y + ((y > BMP_HEIGTH - 2) ? 0 : 2)] && bit_image[x - (x == 0 ? 0 : 1)][y - (y == 0 ? 0 : 1)] && bit_image[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)] && bit_image[x - (x == 0 ? 0 : 1)][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
-                    if (!(img_2[x - (x == 0 ? 0 : 1)][y] && img_2[x + (x == BMP_WIDTH - 1 ? 0 : 1)][y] && img_2[x][y - (y == 0 ? 0 : 1)] && img_2[x][y + (y == BMP_HEIGTH - 1 ? 0 : 1)]))
-                    {
-                        img_1[x][y] = 0;
-                        waseroded = 1;
-                    }
-                    else
-                    {
-                        img_1[x][y] = 255;
-                    }
+                    waseroded = 1;
                 }
                 else
                 {
-                    img_1[x][y] = 0;
+                    img_2[x][y] = 255;
                 }
+            }
+            else
+            {
+                img_2[x][y] = 0;
             }
         }
     }
+
     return waseroded;
 }
