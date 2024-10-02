@@ -141,9 +141,24 @@ void standardRuns()
 void improvedRuns()
 {
     unsigned char (*input_image)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
-    if (input_image == NULL) {
+    if (input_image == NULL)
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
+    }else{
+        for (int i = 0; i < BMP_WIDTH; i++)
+        {
+            for (int ii = 0; ii < BMP_HEIGTH; ii++)
+            {
+                for (int iii = 0; iii < BMP_CHANNELS; iii++)
+                {
+                    input_image[i][ii][iii] = 0;
+                }
+                
+            }
+            
+        }
+        
     }
     char file_path[255];
     int easyRuns[10];
