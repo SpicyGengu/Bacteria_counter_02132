@@ -162,8 +162,6 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASYOUTPUT, number);
-        write_bitmap(input_image,file_path);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -178,8 +176,6 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUMOUTPUT, number);
-        write_bitmap(input_image,file_path);
         mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -195,8 +191,6 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARDOUTPUT, number);
-        write_bitmap(input_image,file_path);
         hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -212,8 +206,6 @@ void improvedRuns()
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
         read_bitmap(file_path, input_image);
         int result = runImproved(input_image);
-        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
-        write_bitmap(input_image,file_path);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }

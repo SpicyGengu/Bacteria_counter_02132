@@ -79,7 +79,6 @@ void dynamicOtsu(unsigned char inputImage[BMP_WIDTH][BMP_HEIGTH]) {
             }
 
             int threshold = otsuSmall(section, maxDistanceHorz, maxDistanceVert);
-
             for (int x = 0; x < maxDistanceHorz; x++) {
                 for (int y = 0; y < maxDistanceVert; y++) {
                     inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] = (inputImage[row * maxDistanceHorz + x][column * maxDistanceVert + y] > threshold) ? 255 : 0;
