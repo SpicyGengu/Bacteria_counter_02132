@@ -138,7 +138,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         }
     }
 
-    if (withinExclusion > 2)
+    if (withinExclusion > 2) // Break if more than 2 white pixels in exclusion zone
     {
         return 0;
     }
