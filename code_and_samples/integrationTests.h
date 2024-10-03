@@ -182,6 +182,8 @@ void improvedRuns() {
             continue;
         }
         int result = runImproved(improved_runImage);
+        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASYOUTPUT, number);
+        //write_bitmap(improved_runImage,file_path);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -200,6 +202,8 @@ void improvedRuns() {
             continue;
         }
         int result = runImproved(improved_runImage);
+        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUMOUTPUT, number);
+        //write_bitmap(improved_runImage,file_path);
         mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -218,6 +222,8 @@ void improvedRuns() {
             continue;
         }
         int result = runImproved(improved_runImage);
+        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARDOUTPUT, number);
+        //write_bitmap(improved_runImage,file_path);
         hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -236,6 +242,8 @@ void improvedRuns() {
             continue;
         }
         int result = runImproved(improved_runImage);
+        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
+        //write_bitmap(improved_runImage,file_path);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
