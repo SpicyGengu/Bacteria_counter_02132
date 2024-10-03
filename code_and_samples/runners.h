@@ -34,7 +34,6 @@ int runImproved(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]) 
 
     while (erodeImprovement(ptr1, ptr2))
     {
-
         detectImprovement(ptr2, input_image);
 
         // Swap pointers
