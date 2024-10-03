@@ -34,11 +34,7 @@ int main(int argc, char **argv)
     }
   }
 
-  if (read_bitmap(argv[1], input_image) != 0) {
-    fprintf(stderr, "Failed to read bitmap file: %s\n", argv[1]);
-    exit(1);
-  }
-
+  read_bitmap(argv[1], input_image);
 
   clock_t start, end;
   double cpu_time_used;
@@ -47,10 +43,7 @@ int main(int argc, char **argv)
   end = clock();
   cpu_time_used = ((double)(end - start)) * 1000 / CLOCKS_PER_SEC;
 
-  if (write_bitmap(input_image, argv[2]) != 0) {
-    fprintf(stderr, "Failed to write bitmap to file: %s\n", argv[2]);
-    exit(1);
-  }
+  write_bitmap(input_image, argv[2]);
 
   printf("Algorithm run in %f ms\n", cpu_time_used);
   printf("Total Cells: %d \n\n", totalCount);

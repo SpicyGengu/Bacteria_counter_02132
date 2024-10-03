@@ -45,16 +45,21 @@ int averageResultSize5(int results[5])
     return round(sumOfResults / 5);
 }
 
-void standardRuns() {
+void standardRuns()
+{
     unsigned char(*basicRunImage)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
-    if (basicRunImage == NULL) {
+    if (basicRunImage == NULL)
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
     // Initialize the image buffer
-    for (int i = 0; i < BMP_WIDTH; i++) {
-        for (int ii = 0; ii < BMP_HEIGTH; ii++) {
-            for (int iii = 0; iii < BMP_CHANNELS; iii++) {
+    for (int i = 0; i < BMP_WIDTH; i++)
+    {
+        for (int ii = 0; ii < BMP_HEIGTH; ii++)
+        {
+            for (int iii = 0; iii < BMP_CHANNELS; iii++)
+            {
                 basicRunImage[i][ii][iii] = 0;
             }
         }
@@ -71,18 +76,12 @@ void standardRuns() {
 
     // Easy Difficulties
     printf("Easy difficulties:       ");
-    for (int number = 1; number <= 10; number++) {
-    totalCount = 0;
-    snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
+    for (int number = 1; number <= 10; number++)
+    {
+        totalCount = 0;
+        snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
 
-
-    int readResult = read_bitmap(file_path, basicRunImage);
-    if (readResult == 1) { 
-        fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-        continue;
-    } else {
-        //printf("Bitmap read successfully from: %s\n", file_path); // Debug statement for successful read // Debug message outcommented
-    }
+        read_bitmap(file_path, basicRunImage);
         int result = runBaseline(basicRunImage);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
@@ -93,14 +92,12 @@ void standardRuns() {
 
     // Medium Difficulties
     printf("Medium difficulties:     ");
-    for (int number = 1; number <= 10; number++) {
+    for (int number = 1; number <= 10; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) { 
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        // printf("Reading bitmap from: %s\n", file_path); // Debug statement
+        read_bitmap(file_path, basicRunImage);
         int result = runBaseline(basicRunImage);
         mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
@@ -111,14 +108,12 @@ void standardRuns() {
 
     // Hard Difficulties
     printf("Hard difficulties:       ");
-    for (int number = 1; number <= 10; number++) {
+    for (int number = 1; number <= 10; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) { 
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        // printf("Reading bitmap from: %s\n", file_path); // Debug statement
+        read_bitmap(file_path, basicRunImage);
         int result = runBaseline(basicRunImage);
         hardRuns[number - 1] = result;
         printf("%d/300 ", result);
@@ -129,14 +124,12 @@ void standardRuns() {
 
     // Impossible Difficulties
     printf("Impossible Difficulties: ");
-    for (int number = 1; number <= 5; number++) {
+    for (int number = 1; number <= 5; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, basicRunImage) == 1) {
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        // printf("Reading bitmap from: %s\n", file_path); // Debug statement
+        read_bitmap(file_path, basicRunImage);
         int result = runBaseline(basicRunImage);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
@@ -147,16 +140,21 @@ void standardRuns() {
     free(basicRunImage);
 }
 
-void improvedRuns() {
+void improvedRuns()
+{
     unsigned char(*improved_runImage)[BMP_HEIGTH][BMP_CHANNELS] = malloc(BMP_WIDTH * BMP_HEIGTH * BMP_CHANNELS);
-    if (improved_runImage == NULL) {
+    if (improved_runImage == NULL)
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
     // Initialize the image buffer
-    for (int i = 0; i < BMP_WIDTH; i++) {
-        for (int ii = 0; ii < BMP_HEIGTH; ii++) {
-            for (int iii = 0; iii < BMP_CHANNELS; iii++) {
+    for (int i = 0; i < BMP_WIDTH; i++)
+    {
+        for (int ii = 0; ii < BMP_HEIGTH; ii++)
+        {
+            for (int iii = 0; iii < BMP_CHANNELS; iii++)
+            {
                 improved_runImage[i][ii][iii] = 0;
             }
         }
@@ -173,17 +171,14 @@ void improvedRuns() {
 
     // Easy Difficulties
     printf("Easy difficulties:       ");
-    for (int number = 1; number <= 10; number++) {
+    for (int number = 1; number <= 10; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASY, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) {
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        read_bitmap(file_path, improved_runImage);
         int result = runImproved(improved_runImage);
-        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASYOUTPUT, number);
-        //write_bitmap(improved_runImage,file_path);
+        // snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_EASYOUTPUT, number);
+        // write_bitmap(improved_runImage,file_path);
         easyRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -193,17 +188,14 @@ void improvedRuns() {
 
     // Medium Difficulties
     printf("Medium difficulties:     ");
-    for (int number = 1; number <= 10; number++) {
+    for (int number = 1; number <= 10; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUM, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) {
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        read_bitmap(file_path, improved_runImage);
         int result = runImproved(improved_runImage);
-        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUMOUTPUT, number);
-        //write_bitmap(improved_runImage,file_path);
+        // snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_MEDIUMOUTPUT, number);
+        // write_bitmap(improved_runImage,file_path);
         mediumRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -213,17 +205,14 @@ void improvedRuns() {
 
     // Hard Difficulties
     printf("Hard difficulties:       ");
-    for (int number = 1; number <= 10; number++) {
+    for (int number = 1; number <= 10; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARD, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) {
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        read_bitmap(file_path, improved_runImage);
         int result = runImproved(improved_runImage);
-        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARDOUTPUT, number);
-        //write_bitmap(improved_runImage,file_path);
+        // snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_HARDOUTPUT, number);
+        // write_bitmap(improved_runImage,file_path);
         hardRuns[number - 1] = result;
         printf("%d/300 ", result);
     }
@@ -233,17 +222,14 @@ void improvedRuns() {
 
     // Impossible Difficulties
     printf("Impossible Difficulties: ");
-    for (int number = 1; number <= 5; number++) {
+    for (int number = 1; number <= 5; number++)
+    {
         totalCount = 0;
         snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLE, number);
-        //printf("Reading bitmap from: %s\n", file_path); // Debug statement
-        if (read_bitmap(file_path, improved_runImage) == 1) {
-            fprintf(stderr, "Error reading bitmap from: %s\n", file_path);
-            continue;
-        }
+        read_bitmap(file_path, improved_runImage);
         int result = runImproved(improved_runImage);
-        //snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
-        //write_bitmap(improved_runImage,file_path);
+        // snprintf(file_path, sizeof(file_path), FILE_PATH_FORMAT_IMPOSSIBLEOUTPUT, number);
+        // write_bitmap(improved_runImage,file_path);
         impossibleRuns[number - 1] = result;
         printf("%d/300 ", result);
     }

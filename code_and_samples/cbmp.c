@@ -79,7 +79,7 @@ void _map(BMP *bmp, void (*f)(BMP *bmp, int, int, int));
 void _get_pixel(BMP *bmp, int index, int offset, int channel);
 
 // Public function implementations
-char read_bitmap(char *input_file_path, unsigned char output_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
+void read_bitmap(char *input_file_path, unsigned char output_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS])
 {
     // Read image into BMP struct
     BMP *in_bmp = bopen(input_file_path);
@@ -88,7 +88,6 @@ char read_bitmap(char *input_file_path, unsigned char output_image_array[BMP_WID
     if (width != BMP_WIDTH || height != BMP_HEIGTH)
     {
         _throw_error("Invalid bitmap width and/or height. Must be 950x950 pixels.");
-        return 1;
     }
     if (out_bmp == NULL)
     {
@@ -109,10 +108,9 @@ char read_bitmap(char *input_file_path, unsigned char output_image_array[BMP_WID
         }
     }
     bclose(in_bmp);
-    return 0;
 }
 
-char write_bitmap(unsigned char input_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], char *output_file_path)
+void write_bitmap(unsigned char input_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS], char *output_file_path)
 {
     if (out_bmp == NULL)
     {
@@ -132,7 +130,6 @@ char write_bitmap(unsigned char input_image_array[BMP_WIDTH][BMP_HEIGTH][BMP_CHA
         }
     }
     bwrite(out_bmp, output_file_path);
-    return 0;
 }
 
 // Private (ex-public) function declarations
