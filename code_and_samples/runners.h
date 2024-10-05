@@ -24,7 +24,7 @@ int runImproved(unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][BMP_CHANNELS]) 
     unsigned int maxTravel = round(detectionSize / 2);
     unsigned char imageToProcess1[BMP_WIDTH][BMP_HEIGTH];
     unsigned char imageToProcess2[BMP_WIDTH][BMP_HEIGTH];
-    unsigned char(*ptr1)[BMP_HEIGTH] = imageToProcess1;
+    unsigned char(*ptr1)[BMP_HEIGTH] = imageToProcess1; 
     unsigned char(*ptr2)[BMP_HEIGTH] = imageToProcess2;
 
 
