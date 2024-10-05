@@ -5,6 +5,8 @@
 #include "integrationTests.h"
 #include <time.h>
 
+unsigned char integrationTestMode = 0;
+
 // Main function
 int main(int argc, char **argv)
 {
@@ -50,21 +52,21 @@ int main(int argc, char **argv)
 
   free(input_image);
 
-
-
   /***** Integration Tests Start *****/
-  
-  start = clock();
-  standardRuns();
-  end = clock();
-  cpu_time_used = ((double)(end - start)) * 1000 / CLOCKS_PER_SEC;
-  printf("Baseline integration tests done in %f ms\n", cpu_time_used);
+  if (integrationTestMode)
+  {
+    start = clock();
+    standardRuns();
+    end = clock();
+    cpu_time_used = ((double)(end - start)) * 1000 / CLOCKS_PER_SEC;
+    printf("Baseline integration tests done in %f ms\n", cpu_time_used);
 
-  start = clock();
-  improvedRuns();
-  end = clock();
-  cpu_time_used = ((double)(end - start)) * 1000 / CLOCKS_PER_SEC;
-  printf("Improved integration tests done in %f ms\n", cpu_time_used);
+    start = clock();
+    improvedRuns();
+    end = clock();
+    cpu_time_used = ((double)(end - start)) * 1000 / CLOCKS_PER_SEC;
+    printf("Improved integration tests done in %f ms\n", cpu_time_used);
+  }
 
   /***** Integration Tests End *****/
 

@@ -4,7 +4,8 @@
 // #include <unistd.h>
 #include <math.h>
 
-#define detectionSizeIMP 13 // CHANGE THIS ONE. HAS TO BE ODD NUMBER. Må åbenbart ikke være større end 15
+#define inclusionThreshold 6
+#define detectionSizeIMP 15 // CHANGE THIS ONE. HAS TO BE ODD NUMBER
 unsigned const maxTravelImp = (detectionSizeIMP / 2) - 0.5;
 
 int myMinIMP(int x, int y)
@@ -137,7 +138,7 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
         }
     }
 
-    if (withinExclusion > 2) // Break if more than 2 white pixels in exclusion zone
+    if (withinExclusion > inclusionThreshold) // Break if more than 6 white pixels in exclusion zone
     {
         return 0;
     }
@@ -163,10 +164,10 @@ char detectHelperWithTolerence(int centerX, int centerY, unsigned char image[BMP
 
 void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][BMP_HEIGTH][3])
 {
-    unsigned char zDistX = myMinIMP(maxTravelImp + 1, x);
-    unsigned char zDistY = myMinIMP(maxTravelImp + 1, y);
-    unsigned char eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp + 1);
-    unsigned char eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
+    unsigned char zDistX = myMinIMP(maxTravelImp, x);
+    unsigned char zDistY = myMinIMP(maxTravelImp, y);
+    unsigned char eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp);
+    unsigned char eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp);
 
     int startX = x - zDistX;
     int endX = x + eDistX;
@@ -199,10 +200,10 @@ void makeCrossForImprovement(int x, int y, unsigned char input_image[BMP_WIDTH][
 
 void overWriteForImprovement(int x, int y, unsigned char image[BMP_WIDTH][BMP_HEIGTH])
 {
-    unsigned char zDistX = myMinIMP(maxTravelImp + 1, x);
-    unsigned char zDistY = myMinIMP(maxTravelImp + 1, y);
-    unsigned char eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp + 1);
-    unsigned char eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp + 1);
+    unsigned char zDistX = myMinIMP(maxTravelImp + inclusionThreshold, x);
+    unsigned char zDistY = myMinIMP(maxTravelImp + inclusionThreshold, y);
+    unsigned char eDistX = myMinIMP((BMP_WIDTH - 1) - x, maxTravelImp + inclusionThreshold);
+    unsigned char eDistY = myMinIMP((BMP_HEIGTH - 1) - y, maxTravelImp + inclusionThreshold);
     for (int i = x - zDistX; i <= x + eDistX; i++)
     {
         for (int j = y - zDistY; j <= y + eDistY; j++)

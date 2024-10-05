@@ -1,10 +1,9 @@
-This folder contains code and material for the Assignment 1.
+This folder contains the code for the first assignment of course 02132. 
 
-To help you get started, we provide you with the library 'cbmp.h' + 'cbmp.c' to load and save images to bmp files. The description of the functions offered by this library is provided in the assignment document (in the Algorithm Step 1 and Step 7 descriptions).
+The folder samples_results contains the results of all pictures tested with our algorithm.
+If any changes are made to the code, new result images can be made by replacing 'improvedRuns();' with 'improvedRunsWithImages();' on line 65 of main.c
 
-In addition, we also provide an example code (main.c) that loads an image from a file (example.bmp), inverts the value of the color channels (i.e. creates the negative of the image), and saves it to a file. As a starting point, make sure you can run this code without error. Examine the code, and use it as starting point for implementing the algorithm.
-
-If you use the terminal, compile and run 'main.c' as follows: 
+To run the code in the terminal:
 
 Linux/Mac:
 - To compile: gcc cbmp.c main.c -o main.out -std=c99
@@ -14,7 +13,6 @@ Windows:
 - To compile: gcc cbmp.c main.c -o main.exe -std=c99
 - To run: .\main.exe example.bmp example_inv.bmp
 
-The folder 'results_example' provides you with some example images obtained by running the algorithm. 
+As in the code supplied for this assignment, 'example.bmp' and the result image can be exhanged for other file paths.
 
-The folder 'samples' provides you with sample images for the 3 different levels of detection difficulty: easy, medium, and hard. Here you can also find the level 'impossible'. This level of difficulty is not part of the assignment. It is here just in case you really want to challenge your algorithm ;-)
-
+To run the built in integration tests, simply replace the value on line 8 of main.c with any whole integer larger than 0 and smaller than 256
